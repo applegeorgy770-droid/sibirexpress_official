@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Амбар — кофейня-пекарня · Вологда</title>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='10' fill='%233d3a36'/%3E%3Crect x='10' y='10' width='80' height='80' rx='4' fill='none' stroke='%23b8a690' stroke-width='2' stroke-dasharray='4 3'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-style='italic' fill='%23e8d9c5' text-anchor='middle'%3EА%3C/text%3E%3C/svg%3E">
+
+<style>
+  :root{
+    --bg: #e8e2d9;
+    --paper: #f2ede6;
+    --ink: #3d3a36;
+    --muted: #8a8078;
+    --accent: #3d3a36;
+    --accent-2: #b8a690;
+    --accent-3: #8a7a68;
+    --line: #d6cec2;
+    --line-soft: #e5ddd2;
+    --shadow-soft: 0 2px 4px rgba(61,58,54,.05), 0 14px 30px -18px rgba(61,58,54,.25);
+    --shadow-hover: 0 4px 8px rgba(61,58,54,.08), 0 24px 50px -22px rgba(61,58,54,.35);
+    --nav-h: 72px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    font-family: "Georgia", "Times New Roman", serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(184,166,144,.12), transparent 55%),
+      radial-gradient(circle at 10% 90%, rgba(61,58,54,.05), transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{ max-width: 1000px; margin:0 auto; padding: 0 24px; position:relative; z-index:2; }
+
+  .bg-shapes{ position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+  .bg-shape{ position:absolute; opacity:.08; animation: floatShape linear infinite; will-change: transform; }
+  .bg-shape svg{ display:block; }
+  @keyframes floatShape{
+    0%{ transform: translate(0,0) rotate(0deg) scale(1); }
+    25%{ transform: translate(25px,-45px) rotate(70deg) scale(1.05); }
+    50%{ transform: translate(-15px,-90px) rotate(180deg) scale(.96); }
+    75%{ transform: translate(-40px,-25px) rotate(270deg) scale(1.02); }
+    100%{ transform: translate(0,0) rotate(360deg) scale(1); }
+  }
+
+  /* ================= МУЛЬТИК ================= */
+  .bakery-story{
+    position: fixed; right: 22px; bottom: 34px; width: 300px; z-index: 60;
+    background: var(--paper);
+    border: 2px solid var(--accent-2);
+    border-radius: 18px;
+    padding: 16px 16px 14px;
+    box-shadow: 0 22px 50px -22px rgba(61,58,54,.55);
+    text-align: center;
+    transition: opacity .4s ease, transform .4s ease;
+    opacity: 0; transform: translateY(16px) scale(.96);
+    pointer-events: none;
+  }
+  .bakery-story.visible{ opacity: 1; transform: none; pointer-events: auto; }
+  .bakery-story .bs-stage{
+    position: relative; width: 100%; height: 180px; overflow: hidden;
+    border-radius: 12px;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(184,166,144,.18), transparent 70%),
+      #f2ede6;
+    border: 1px solid var(--line-soft);
+  }
+  .bakery-story .bs-frame{
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(.85) translateY(8px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .bakery-story .bs-frame.active{ opacity: 1; transform: none; }
+  .bakery-story .bs-frame svg{ width: 90%; height: 90%; max-width: 240px; display: block; }
+  .bakery-story .bs-caption{
+    font-size: .8rem; letter-spacing: .06em; color: var(--accent);
+    margin-top: 10px; font-style: italic; line-height: 1.4; min-height: 2.4em;
+  }
+  .bakery-story .bs-progress{
+    height: 4px; background: rgba(184,166,144,.25);
+    border-radius: 2px; overflow: hidden; margin-top: 10px;
+  }
+  .bakery-story .bs-progress-bar{
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+    border-radius: 2px; transition: width .15s linear;
+  }
+  .bakery-story .bs-close{
+    position: absolute; top: -8px; right: -8px;
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--paper);
+    color: var(--muted); font-size: .9rem; cursor: pointer;
+    display: grid; place-items: center; line-height: 1; padding: 0;
+    transition: color .2s, background .2s;
+    pointer-events: auto; z-index: 10;
+  }
+  .bakery-story .bs-close:hover{ color: var(--accent); background: #fff; }
+
+  @media (max-width: 760px){
+    .bakery-story{
+      right: 12px; left: 12px; bottom: 22px; width: auto;
+      max-width: 300px; margin-left: auto; padding: 12px 12px 10px;
+    }
+    .bakery-story .bs-stage{ height: 130px; }
+    .bakery-story .bs-caption{ font-size: .72rem; margin-top: 8px; }
+  }
+
+  /* ================= НАВИГАЦИЯ ================= */
+  nav{
+    position: fixed; top:0; left:0; right:0; z-index:50;
+    background: var(--accent);
+    border-bottom:3px solid var(--accent-2);
+    transition: box-shadow .4s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    color: #e8d9c5;
+  }
+  nav.scrolled{ box-shadow: 0 10px 30px -18px rgba(0,0,0,.5); }
+  nav .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    gap: 16px;
+    padding-top:12px; padding-bottom:12px;
+    opacity:0; transform: translateY(-18px);
+    animation: navIn .8s cubic-bezier(.2,.7,.2,1) .2s forwards;
+  }
+  @keyframes navIn{ from{ opacity:0; transform: translateY(-18px); } to{ opacity:1; transform:none; } }
+
+  nav .brand-wrap{
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0; text-decoration: none; color: #f0e8dc;
+  }
+  nav .brand-icon{
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--ink);
+    display: grid; place-items: center; flex-shrink: 0;
+    box-shadow: 0 2px 6px -2px rgba(0,0,0,.3);
+  }
+  nav .brand-icon svg{ width: 22px; height: 22px; display: block; }
+  nav .brand{
+    font-weight:bold; letter-spacing:.22em; text-transform:uppercase; font-size:1rem;
+    position:relative; display:inline-block; white-space: nowrap;
+    color: #f0e8dc; background: transparent;
+  }
+  nav .brand::after{
+    content:""; position:absolute; left:0; bottom:-3px;
+    width:100%; height:2px; background: var(--accent-2);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  nav .brand-wrap:hover .brand::after{ transform: scaleX(1); }
+
+  nav ul{
+    display:flex; gap:4px; list-style:none; align-items:center;
+    flex-wrap: nowrap; margin-left: auto;
+  }
+  nav a.nav-link{
+    color: #d9cfc2; text-decoration:none;
+    font-family:inherit; font-size:.84rem; letter-spacing:.05em;
+    padding:8px 14px; border-radius:999px;
+    border:1px solid transparent; background:transparent; cursor:pointer;
+    transition: background .3s, color .3s, border-color .3s, transform .3s;
+    position:relative; display:inline-block; white-space: nowrap;
+  }
+  nav a.nav-link:hover{
+    background: rgba(184,166,144,.18);
+    border-color: var(--accent-2);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  nav a.nav-link.nav-call-btn{
+    color: #2a2825;
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+    font-size: .82rem; letter-spacing: .04em; font-weight: bold;
+    font-variant-numeric: tabular-nums;
+  }
+  nav a.nav-link.nav-call-btn:hover{
+    background: #d4c5b2; color: #1a1917;
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* ================= КОНТЕНТ ================= */
+  section{ padding: 20px 0; scroll-margin-top: calc(var(--nav-h) + 12px); }
+  .section-block{
+    position:relative; margin: 0 0 34px;
+    padding: clamp(36px, 6vw, 62px) clamp(24px, 5vw, 52px);
+    background: linear-gradient(180deg, var(--paper), #ece5da);
+    border:1px solid var(--line-soft);
+    border-radius: 18px;
+    box-shadow: var(--shadow-soft);
+    transform-style: preserve-3d;
+    perspective: 900px;
+    transition: box-shadow .45s ease, transform .4s ease;
+    will-change: transform;
+  }
+  .section-block:hover{ box-shadow: var(--shadow-hover); }
+  .section-block::before{
+    content:"";
+    position:absolute; top:0; left:22px; right:22px; height:6px;
+    background: repeating-linear-gradient(90deg, var(--accent-3) 0 26px, #9a8a78 26px 28px, #7a6a58 28px 54px);
+    border-radius: 0 0 4px 4px;
+    opacity:.9;
+  }
+  .section-block::after{
+    content:""; position:absolute; top:0; right:0; width:0; height:0;
+    border-style: solid; border-width: 0 26px 26px 0;
+    border-color: transparent var(--bg) transparent transparent;
+    border-radius: 0 18px 0 0;
+    filter: drop-shadow(-2px 2px 2px rgba(61,58,54,.05));
+  }
+
+  h2{
+    font-size: clamp(1.8rem, 5vw, 2.7rem);
+    font-weight:400; margin-bottom:10px; letter-spacing:.02em;
+    display:inline-block; position:relative;
+    color: var(--accent);
+  }
+  h2::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:100%; height:3px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+    border-radius:2px; transform: scaleX(0); transform-origin: left center;
+    transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  h2:hover::after{ transform: scaleX(1); }
+
+  .section-sub{
+    font-size: .92rem; color: var(--muted); font-style: italic;
+    margin-top: 8px; margin-bottom: 30px;
+  }
+
+  .reveal{
+    opacity:1; transform: none;
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .js-ready .reveal{ opacity:0; transform: translateY(34px); }
+  .js-ready .reveal.visible{ opacity:1; transform:none; }
+
+  /* ============ АТМОСФЕРА ============ */
+  .atmosphere{
+    width: 100%;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(184,166,144,.15), transparent 60%),
+      linear-gradient(180deg, #2a2825 0%, #3d3a36 40%, #4a4640 75%, var(--bg) 100%);
+    padding: clamp(28px, 5vw, 50px) 0 clamp(50px, 8vw, 90px);
+    position: relative; z-index: 2;
+    margin-top: var(--nav-h);
+    margin-bottom: 0;
+  }
+  .atmosphere .wrap{ position:relative; z-index:2; }
+
+  .atmo-header{ text-align: center; margin-bottom: 26px; }
+  .atmo-header h2{ color: #f0e8dc; margin-bottom: 0; }
+  .atmo-header h2::after{ background: linear-gradient(90deg, var(--accent-2), #d4c5b2); }
+  .atmo-header .section-sub{ color: #b8a690; }
+
+  .atmo-carousel{
+    position: relative; display: flex; align-items: center; justify-content: center;
+    gap: 18px; user-select: none;
+  }
+  .atmo-stage{
+    position: relative; width: 100%; max-width: 700px; aspect-ratio: 16/10;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  @supports not (aspect-ratio: 1) { .atmo-stage{ height: 440px; } }
+  .atmo-slide{
+    position: absolute; top: 50%; left: 50%;
+    width: 64%; aspect-ratio: 4/3;
+    border-radius: 14px; overflow: hidden;
+    background: #2a2825;
+    border: 2px solid rgba(184,166,144,.25);
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.8);
+    transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .7s ease, filter .7s ease, border-color .4s ease;
+    will-change: transform, opacity; opacity: 0; pointer-events: none;
+  }
+  @supports not (aspect-ratio: 1) { .atmo-slide{ height: 260px; } }
+  .atmo-slide.pos-center{ border-color: var(--accent-2); }
+  .atmo-slide img{ width:100%; height:100%; object-fit: cover; display: block; }
+  .atmo-slide .slide-placeholder{
+    width:100%; height:100%; display:grid; place-items:center;
+    color: rgba(240,232,220,.5);
+    font-size:.8rem; text-align:center; padding: 20px; letter-spacing:.08em;
+    background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(184,166,144,.05) 12px, rgba(184,166,144,.05) 24px);
+  }
+  .atmo-slide.pos-center{ transform: translate(-50%, -50%) scale(1); opacity: 1; z-index: 3; pointer-events: auto; }
+  .atmo-slide.pos-left{ transform: translate(-128%, -50%) scale(.72); opacity: .55; z-index: 2; filter: brightness(.7); }
+  .atmo-slide.pos-right{ transform: translate(28%, -50%) scale(.72); opacity: .55; z-index: 2; filter: brightness(.7); }
+  .atmo-slide.pos-hidden{ transform: translate(-50%, -50%) scale(.5); opacity: 0; z-index: 1; }
+
+  .atmo-nav{
+    flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%;
+    border: 2px solid rgba(184,166,144,.35);
+    background: rgba(184,166,144,.08);
+    color: #f0e8dc; font-size: 1.15rem; cursor: pointer;
+    display: grid; place-items: center;
+    transition: background .3s, border-color .3s, transform .2s; z-index: 5;
+  }
+  .atmo-nav:hover{ background: var(--accent-2); color: #2a2825; border-color: var(--accent-2); transform: scale(1.1); }
+  .atmo-nav:active{ transform: scale(.95); }
+
+  .atmo-dots{ display: flex; justify-content: center; gap: 9px; margin-top: 24px; flex-wrap: wrap; }
+  .atmo-dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    border: none; background: rgba(240,232,220,.3);
+    cursor: pointer; padding: 0;
+    transition: background .3s, transform .3s;
+  }
+  .atmo-dot.active{ background: var(--accent-2); transform: scale(1.3); }
+  .atmo-dot:hover{ background: rgba(240,232,220,.6); }
+
+  /* ============ ВИТРИНА ============ */
+  .bakery-hero-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 26px;
+  }
+  .bakery-hero-card{
+    background: var(--paper); border:1px solid var(--line);
+    border-radius: 16px; padding: 28px 26px;
+    box-shadow: 0 1px 2px rgba(61,58,54,.04);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .3s ease;
+    position: relative; overflow: hidden;
+  }
+  .bakery-hero-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .bakery-hero-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px rgba(61,58,54,.35);
+    border-color: var(--accent-2);
+  }
+  .bakery-hero-card:hover::before{ transform: scaleX(1); }
+  .bakery-hero-card .bhc-label{
+    font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--accent-3); margin-bottom: 8px;
+  }
+  .bakery-hero-card .bhc-name{
+    font-size: 1.35rem; color: var(--accent); margin-bottom: 6px; line-height: 1.25;
+  }
+  .bakery-hero-card .bhc-desc{
+    font-size: .85rem; color: var(--muted); font-style: italic;
+    line-height: 1.5; margin-bottom: 16px;
+  }
+  .bakery-hero-card .bhc-price{
+    font-size: 1.3rem; color: var(--accent-3);
+    font-variant-numeric: tabular-nums; font-weight: bold;
+  }
+  .bakery-hero-card .bhc-price::after{ content:" ₽"; font-size:.7em; }
+
+  .bakery-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 10px; }
+  .bakery-card{
+    position:relative; background: var(--paper);
+    border:1px solid var(--line); border-radius: 14px;
+    padding: 22px 20px 20px;
+    box-shadow: 0 1px 2px rgba(61,58,54,.04);
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .3s ease;
+    transform-style: preserve-3d; overflow: hidden;
+  }
+  .bakery-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .bakery-card:hover{
+    transform: translateY(-4px) rotate(-.5deg);
+    box-shadow: 0 18px 36px -18px rgba(61,58,54,.35);
+    border-color: var(--accent-2);
+  }
+  .bakery-card:hover::before{ transform: scaleX(1); }
+  .bakery-card .bakery-name{ font-size: 1.02rem; color: var(--accent); margin-bottom: 4px; line-height: 1.3; }
+  .bakery-card .bakery-desc{ font-size: .78rem; color: var(--muted); font-style: italic; margin-bottom: 14px; line-height: 1.5; min-height: 2.4em; }
+  .bakery-card .bakery-price{ font-size: 1.1rem; color: var(--accent-3); font-variant-numeric: tabular-nums; font-weight: bold; }
+  .bakery-card .bakery-price::after{ content:" ₽"; font-size:.7em; }
+  .bakery-card .bakery-tag{
+    position:absolute; top: 10px; right: 10px;
+    font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+    background: var(--accent); color: #e8d9c5;
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .bakery-card .bakery-tag.new{ background: var(--accent-2); color: #2a2825; }
+
+  .menu-category{
+    font-size: .72rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--accent-3); margin-bottom: 14px; margin-top: 30px;
+    padding-bottom: 6px; border-bottom: 1px dashed var(--line);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .menu-category::before{
+    content:""; width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 0 3px rgba(184,166,144,.2);
+  }
+  .menu-category:first-of-type{ margin-top: 0; }
+
+  .menu-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+  .menu-item{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+    padding: 14px 0; border-bottom:1px dotted var(--line);
+    transition: padding-left .35s ease, background .35s ease;
+  }
+  .menu-item:hover{ padding-left:10px; background: linear-gradient(90deg, rgba(184,166,144,.08), transparent); }
+  .menu-item .name{ font-size:1.02rem; }
+  .menu-item .desc{ display:block; font-size:.78rem; color:var(--muted); font-style:italic; margin-top:2px; }
+  .menu-item .price{ font-variant-numeric: tabular-nums; color:var(--accent-3); white-space:nowrap; font-size:.98rem; transition: transform .3s ease; font-weight: bold; }
+  .menu-item:hover .price{ transform: scale(1.08); }
+  .menu-item .price::after{ content:" ₽"; font-size:.75em; }
+
+  .morning-timeline{
+    display: flex; gap: 0; margin-top: 10px; position: relative;
+    overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin;
+  }
+  .morning-timeline::before{
+    content:""; position:absolute; left: 40px; right: 40px; top: 26px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--accent-2) 0 8px, transparent 8px 16px);
+    z-index: 0;
+  }
+  .morning-step{ flex: 1; min-width: 120px; text-align: center; position: relative; z-index: 1; padding: 0 6px; }
+  .morning-step .ms-time{
+    display: inline-block; font-size: .72rem; letter-spacing: .12em;
+    color: var(--accent); background: var(--paper);
+    border: 2px solid var(--accent-2); border-radius: 999px;
+    padding: 4px 12px; margin-bottom: 10px; font-weight: bold;
+    transition: transform .3s ease, background .3s;
+  }
+  .morning-step:hover .ms-time{ transform: scale(1.08); background: var(--accent-2); color: #2a2825; }
+  .morning-step .ms-title{ font-size: .84rem; color: var(--accent); margin-bottom: 2px; line-height: 1.3; }
+  .morning-step .ms-desc{ font-size: .74rem; color: var(--muted); font-style: italic; line-height: 1.4; }
+
+  .hours{ display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; }
+  .hours .card{
+    background: var(--paper); border:1px solid var(--line-soft);
+    border-radius:14px; padding: 26px 28px;
+    box-shadow: 0 1px 2px rgba(61,58,54,.03);
+    transform-style: preserve-3d;
+    transition: box-shadow .4s ease, transform .4s ease; will-change: transform;
+    position: relative; overflow: hidden;
+  }
+  .hours .card::after{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--accent-2);
+  }
+  .hours .card:hover{ box-shadow: 0 20px 38px -20px rgba(61,58,54,.3); }
+  .hours .day{ font-size:.76rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+  .hours .time{ font-size:1.7rem; margin-top:6px; color: var(--accent); transition: transform .3s ease; }
+  .hours .card:hover .time{ transform: translateX(4px); }
+
+  .route{ display:grid; grid-template-columns: 1.1fr .9fr; gap:40px; align-items:start; }
+  .route ol{ list-style:none; counter-reset:step; }
+  .route li{
+    counter-increment:step; position:relative;
+    padding: 0 0 26px 54px; font-size:.95rem;
+    transition: transform .3s ease;
+  }
+  .route li:hover{ transform: translateX(4px); }
+  .route li::before{
+    content: counter(step, decimal-leading-zero);
+    position:absolute; left:0; top:0;
+    width:38px; height:38px; display:grid; place-items:center;
+    border:2px solid var(--accent-2); border-radius:50%;
+    font-size:.74rem; color:var(--accent-3); font-weight: bold;
+    font-variant-numeric: tabular-nums; background: var(--paper);
+    transition: background .3s, color .3s, transform .3s;
+  }
+  .route li:hover::before{ background: var(--accent-2); color:#2a2825; transform: scale(1.1); }
+  .route li:not(:last-child)::after{
+    content:""; position:absolute; left:19px; top:40px; bottom:4px; width:2px;
+    background: repeating-linear-gradient(180deg, var(--accent-2) 0 4px, transparent 4px 8px);
+  }
+
+  .route .map-link-card{
+    background: var(--accent);
+    border:2px solid var(--accent-2);
+    border-radius:14px; aspect-ratio: 4/5;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; text-decoration: none; color: #e8d9c5;
+    box-shadow: 0 14px 30px -18px rgba(61,58,54,.5);
+    transition: transform .35s ease, box-shadow .35s ease;
+    padding: 26px; text-align: center; position: relative; overflow: hidden;
+  }
+  .route .map-link-card::before{
+    content:""; position:absolute; inset:0;
+    background: repeating-linear-gradient(135deg, transparent 0 20px, rgba(184,166,144,.06) 20px 22px);
+    pointer-events:none;
+  }
+  @supports not (aspect-ratio: 1) { .route .map-link-card{ min-height: 340px; } }
+  .route .map-link-card:hover{
+    transform: scale(1.02);
+    box-shadow: 0 24px 44px -20px rgba(61,58,54,.6);
+  }
+  .map-link-card .map-address{
+    font-size: 1.05rem; letter-spacing: .04em; line-height: 1.4;
+    position: relative; z-index: 1;
+  }
+  .map-link-card .map-cta{
+    font-size: .74rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent-2); border-bottom: 1px solid var(--accent-2);
+    padding-bottom: 2px; position: relative; z-index: 1;
+  }
+
+  footer{
+    background: var(--accent);
+    border-top: 3px solid var(--accent-2);
+    padding: 46px 0 76px; text-align:center; font-size:.84rem; color: #b8a690;
+    position:relative; z-index:2;
+  }
+  footer .brand{ color: #f0e8dc; letter-spacing:.3em; text-transform:uppercase; font-size:.78rem; margin-bottom:12px; }
+  footer a{ color: var(--accent-2); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
+  footer .footer-note{
+    margin-top: 18px; font-size: .76rem; color: #9a8a78;
+    font-style: italic; max-width: 420px;
+    margin-left: auto; margin-right: auto; line-height: 1.5;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; }
+    .bg-shapes{ display:none; }
+    nav .wrap{ opacity:1; transform:none; }
+    .atmo-slide{ transition:none; }
+    .bakery-story{ display: none; }
+  }
+
+  @media (max-width: 900px){
+    nav a.nav-link{ font-size:.76rem; padding:7px 10px; }
+    nav .brand{ font-size:.9rem; }
+    nav a.nav-link.nav-call-btn{ font-size:.74rem; }
+    .bakery-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 760px){
+    :root{ --nav-h: 108px; }
+
+    nav .wrap{
+      flex-direction: column; align-items: stretch;
+      gap: 8px; padding-top: 10px; padding-bottom: 10px;
+    }
+    nav .brand-wrap{ justify-content: center; }
+    nav .brand{ font-size: .88rem; letter-spacing: .18em; }
+    nav .brand-icon{ width: 30px; height: 30px; }
+    nav .brand-icon svg{ width: 19px; height: 19px; }
+
+    nav ul{
+      justify-content: center; flex-wrap: wrap; gap: 3px; margin-left: 0;
+    }
+    nav a.nav-link{ font-size: .7rem; padding: 7px 9px; }
+    nav a.nav-link.nav-call-btn{ font-size: .7rem; padding: 7px 9px; }
+
+    .atmosphere{ margin-top: var(--nav-h); padding: 30px 0 50px; }
+    .atmo-header{ margin-bottom: 20px; }
+    .atmo-carousel{ gap: 4px; }
+    .atmo-stage{ aspect-ratio: 4/3; }
+    @supports not (aspect-ratio: 1) { .atmo-stage{ height: 290px; } }
+    .atmo-slide{ width: 76%; aspect-ratio: 1/1; border-radius: 12px; }
+    @supports not (aspect-ratio: 1) { .atmo-slide{ height: 210px; } }
+    .atmo-slide.pos-left{ transform: translate(-118%, -50%) scale(.6); }
+    .atmo-slide.pos-right{ transform: translate(18%, -50%) scale(.6); }
+    .atmo-nav{ width: 36px; height: 36px; font-size: .95rem; }
+    .atmo-dots{ margin-top: 16px; gap: 7px; }
+
+    section{ padding: 16px 0; }
+    .section-block{ border-radius: 14px; margin-bottom: 20px; padding: 26px 18px 20px; }
+    .section-block::before{ left: 14px; right: 14px; height: 5px; }
+    .section-block::after{ border-width: 0 18px 18px 0; }
+    h2{ font-size: clamp(1.5rem, 6.5vw, 2.1rem); margin-bottom: 8px; }
+    .section-sub{ margin-bottom: 22px; font-size: .84rem; }
+
+    .bakery-hero-grid{ grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+    .bakery-hero-card{ padding: 22px 20px; }
+    .bakery-hero-card .bhc-name{ font-size: 1.2rem; }
+
+    .bakery-grid{ grid-template-columns: 1fr; gap: 12px; }
+    .bakery-card{ padding: 20px 18px; }
+    .bakery-card .bakery-name{ font-size: 1rem; }
+    .bakery-card .bakery-desc{ font-size: .78rem; min-height: auto; margin-bottom: 12px; }
+    .bakery-card .bakery-price{ font-size: 1.05rem; }
+
+    .menu-grid{ grid-template-columns: 1fr; gap: 0; }
+    .menu-item{ padding: 12px 0; }
+    .menu-item .name{ font-size: .96rem; }
+    .menu-item .desc{ font-size: .72rem; }
+    .menu-item .price{ font-size: .94rem; }
+    .menu-category{ margin-top: 24px; font-size: .66rem; }
+
+    .morning-timeline{ gap: 4px; padding-bottom: 6px; }
+    .morning-timeline::before{ left: 20px; right: 20px; }
+    .morning-step{ min-width: 100px; }
+    .morning-step .ms-time{ font-size: .64rem; padding: 3px 9px; }
+    .morning-step .ms-title{ font-size: .76rem; }
+    .morning-step .ms-desc{ font-size: .66rem; }
+
+    .hours{ grid-template-columns: 1fr; gap: 10px; }
+    .hours .card{ padding: 20px 18px; }
+    .hours .day{ font-size: .7rem; }
+    .hours .time{ font-size: 1.4rem; }
+
+    .route{ grid-template-columns: 1fr; gap: 20px; }
+    .route li{ padding: 0 0 20px 46px; font-size: .9rem; }
+    .route li::before{ width: 32px; height: 32px; font-size: .68rem; }
+    .route li:not(:last-child)::after{ left: 16px; top: 34px; }
+    .route .map-link-card{ aspect-ratio: auto; padding: 24px 18px; gap: 10px; }
+    .map-link-card .map-address{ font-size: .96rem; }
+    .map-link-card .map-cta{ font-size: .7rem; }
+
+    footer{ padding: 34px 0 60px; font-size: .78rem; }
+    footer .brand{ font-size: .7rem; }
+  }
+
+  @media (max-width: 400px){
+    nav a.nav-link{ font-size: .66rem; padding: 6px 7px; }
+    nav a.nav-link.nav-call-btn{ font-size: .66rem; padding: 6px 7px; }
+    nav .brand{ font-size: .78rem; }
+  }
+
+  @media (min-width: 761px) and (max-width: 980px){
+    nav a.nav-link{ font-size: .78rem; padding: 8px 11px; }
+    nav a.nav-link.nav-call-btn{ font-size: .76rem; }
+  }
+
+  @media (hover: none){
+    nav a.nav-link:hover{ transform: none; }
+    .menu-item:hover{ padding-left: 0; background: none; }
+    .route li:hover{ transform: none; }
+    .bakery-card:hover{ transform: none; }
+    .bakery-hero-card:hover{ transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bakery-story" id="bakeryStory" aria-hidden="true">
+  <button class="bs-close" id="bsClose" type="button" title="Скрыть">×</button>
+  <div class="bs-stage" id="bsStage"></div>
+  <div class="bs-caption" id="bsCaption">Круассан и кофе</div>
+  <div class="bs-progress">
+    <div class="bs-progress-bar" id="bsProgress"></div>
+  </div>
+</div>
+
+<div class="bg-shapes" id="bgShapes" aria-hidden="true"></div>
+
+<nav id="topnav">
+  <div class="wrap">
+    <a class="brand-wrap" href="#atmosphere" aria-label="Амбар — на главную">
+      <span class="brand-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="88" height="88" rx="10" fill="#3d3a36"/>
+          <rect x="14" y="14" width="72" height="72" rx="3" fill="none" stroke="#b8a690" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="50" y="68" font-family="Georgia,serif" font-size="52" font-style="italic" fill="#e8d9c5" text-anchor="middle">А</text>
+        </svg>
+      </span>
+      <span class="brand">Амбар</span>
+    </a>
+    <ul>
+      <li>
+        <a href="tel:+78172756865" class="nav-link nav-call-btn">+7 (817) 275-68-65</a>
+      </li>
+      <li><a href="#bakery" class="nav-link">Меню</a></li>
+      <li><a href="#hours" class="nav-link">Часы</a></li>
+      <li><a href="#route" class="nav-link">Как дойти</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section class="atmosphere" id="atmosphere">
+    <div class="wrap">
+      <div class="atmo-header">
+        <h2>Атмосфера</h2>
+        <p class="section-sub">Свет, дерево и запах свежей выпечки · Вологда, ул. Марии Ульяновой, 14</p>
+      </div>
+
+      <div class="atmo-carousel">
+        <button class="atmo-nav" id="atmoPrev" aria-label="Предыдущее фото">←</button>
+        <div class="atmo-stage" id="atmoStage"></div>
+        <button class="atmo-nav" id="atmoNext" aria-label="Следующее фото">→</button>
+      </div>
+      <div class="atmo-dots" id="atmoDots"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section id="bakery">
+      <div class="section-block reveal">
+        <h2>Витрина</h2>
+        <p class="section-sub">Главное — круассаны и кофе. Остальное — приятное дополнение.</p>
+
+        <div class="bakery-hero-grid" id="bakeryHeroGrid"></div>
+
+        <div class="menu-category">Ещё выпечка</div>
+        <div class="bakery-grid" id="bakeryGrid"></div>
+
+        <div class="menu-category">Кофе и напитки</div>
+        <div class="menu-grid" id="menuDrinks"></div>
+
+        <div class="menu-category">Завтраки и сэндвичи</div>
+        <div class="menu-grid" id="menuFood"></div>
+      </div>
+    </section>
+
+    <section id="morning">
+      <div class="section-block reveal">
+        <h2>Утро в Амбаре</h2>
+        <p class="section-sub">Как проходит день — от первой партии круассанов до вечернего кофе</p>
+        <div class="morning-timeline" id="morningTimeline"></div>
+      </div>
+    </section>
+
+    <section id="hours">
+      <div class="section-block reveal">
+        <h2>Часы работы</h2>
+        <div class="hours">
+          <div class="card">
+            <div class="day">Понедельник — Пятница</div>
+            <div class="time">08:00 — 21:00</div>
+          </div>
+          <div class="card">
+            <div class="day">Суббота — Воскресенье</div>
+            <div class="time">09:00 — 21:00</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="route">
+      <div class="section-block reveal">
+        <h2>Дорога к нам</h2>
+        <div class="route">
+          <ol id="routeList"></ol>
+
+          <a class="map-link-card"
+             href="https://yandex.ru/maps/org/ambar/202036552228/"
+             target="_blank"
+             rel="noopener noreferrer">
+            <div class="map-address">ул. Марии Ульяновой, 14<br>Вологда</div>
+            <div class="map-cta">Открыть на карте</div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">Амбар · кофейня-пекарня · Вологда</div>
+    <div>ул. Марии Ульяновой, 14 · <a href="tel:+78172756865">+7 (8172) 75-68-65</a></div>
+    <div style="margin-top:8px; font-size:.76rem;">Пн–Пт 08:00–21:00 · Сб–Вс 09:00–21:00</div>
+    <div class="footer-note">
+      По вопросам сотрудничества — позвоните по телефону, указанному выше.
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   МУЛЬТИК
+   ========================================================= */
+const bakeryFrames = [
+  {
+    caption: "Тесто для круассана",
+    svg: `<svg viewBox="0 0 240 140">
+      <ellipse cx="120" cy="96" rx="70" ry="26" fill="#e8d9c5" stroke="#b8a690" stroke-width="2.5"/>
+      <path d="M58 92 Q78 66 120 66 Q162 66 182 92" fill="none" stroke="#b8a690" stroke-width="2" opacity=".7"/>
+      <circle cx="95" cy="88" r="3" fill="#b8a690" opacity=".6"/>
+      <circle cx="120" cy="82" r="3" fill="#b8a690" opacity=".6"/>
+      <circle cx="145" cy="88" r="3" fill="#b8a690" opacity=".6"/>
+    </svg>`
+  },
+  {
+    caption: "Раскатка и слои",
+    svg: `<svg viewBox="0 0 240 140">
+      <rect x="50" y="70" width="140" height="36" rx="18" fill="#e8d9c5" stroke="#b8a690" stroke-width="2.5"/>
+      <path d="M60 80 H180 M60 88 H180 M60 96 H180" stroke="#b8a690" stroke-width="1.5" opacity=".5"/>
+      <ellipse cx="120" cy="88" rx="52" ry="12" fill="none" stroke="#d4c5b2" stroke-width="1.5" opacity=".6"/>
+    </svg>`
+  },
+  {
+    caption: "В печи",
+    svg: `<svg viewBox="0 0 240 140">
+      <rect x="40" y="40" width="160" height="78" rx="12" fill="none" stroke="#8a7a68" stroke-width="3"/>
+      <rect x="54" y="54" width="132" height="50" rx="8" fill="#2a2825" opacity=".85"/>
+      <ellipse cx="120" cy="96" rx="48" ry="16" fill="#d4c5b2" opacity=".5"/>
+      <ellipse cx="120" cy="84" rx="44" ry="18" fill="#e8d9c5" stroke="#b8a690" stroke-width="2"/>
+    </svg>`
+  },
+  {
+    caption: "Круассан готов",
+    svg: `<svg viewBox="0 0 240 140">
+      <path d="M50 92 Q60 54 120 54 Q180 54 190 92 Q160 80 120 80 Q80 80 50 92Z" fill="#d4c5b2" stroke="#8a7a68" stroke-width="2.5"/>
+      <path d="M70 84 Q90 68 120 68 Q150 68 170 84" fill="none" stroke="#8a7a68" stroke-width="2" opacity=".6"/>
+      <path d="M86 76 L90 66 M108 72 L112 62 M132 72 L136 62 M154 76 L158 66" stroke="#8a7a68" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    </svg>`
+  },
+  {
+    caption: "Кофе к круассану",
+    svg: `<svg viewBox="0 0 240 140">
+      <path d="M70 84 H150 V104 C150 116 138 124 110 124 C82 124 70 116 70 104 Z" fill="#e8d9c5" stroke="#8a7a68" stroke-width="2.5"/>
+      <path d="M150 92 H164 C176 92 180 102 180 108 C180 114 176 124 164 124 H150" fill="none" stroke="#8a7a68" stroke-width="2.5"/>
+      <path d="M88 70 C88 62 96 60 96 52" stroke="#b8a690" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <path d="M110 70 C110 62 118 60 118 52" stroke="#b8a690" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <path d="M132 70 C132 62 140 60 140 52" stroke="#b8a690" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+    </svg>`
+  },
+  {
+    caption: "На витрине",
+    svg: `<svg viewBox="0 0 240 140">
+      <rect x="46" y="50" width="148" height="26" rx="6" fill="#f2ede6" stroke="#b8a690" stroke-width="2"/>
+      <rect x="52" y="82" width="136" height="8" rx="3" fill="#d4c5b2" opacity=".6"/>
+      <g>
+        <rect x="64" y="94" width="28" height="30" rx="3" fill="#f2ede6" stroke="#b8a690" stroke-width="1.5"/>
+        <rect x="106" y="94" width="28" height="30" rx="3" fill="#f2ede6" stroke="#b8a690" stroke-width="1.5"/>
+        <rect x="148" y="94" width="28" height="30" rx="3" fill="#f2ede6" stroke="#b8a690" stroke-width="1.5"/>
+      </g>
+      <text x="120" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="16" fill="#3d3a36" font-style="italic">Ambar</text>
+    </svg>`
+  }
+];
+
+const bakeryStory = document.getElementById('bakeryStory');
+const bsStage = document.getElementById('bsStage');
+const bsCaption = document.getElementById('bsCaption');
+const bsProgress = document.getElementById('bsProgress');
+const bsClose = document.getElementById('bsClose');
+
+let storyHidden = false;
+let currentFrame = -1;
+
+bsStage.innerHTML = bakeryFrames.map((f, i) =>
+  `<div class="bs-frame" data-frame="${i}">${f.svg}</div>`
+).join('');
+
+function updateBakeryStory() {
+  if (storyHidden) return;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+
+  if (scrollTop < 120) bakeryStory.classList.remove('visible');
+  else bakeryStory.classList.add('visible');
+
+  bsProgress.style.width = (progress * 100).toFixed(1) + '%';
+
+  const total = bakeryFrames.length;
+  let idx = Math.floor(progress * total);
+  if (idx >= total) idx = total - 1;
+  if (idx < 0) idx = 0;
+
+  if (idx !== currentFrame) {
+    currentFrame = idx;
+    bsStage.querySelectorAll('.bs-frame').forEach(el => {
+      el.classList.toggle('active', parseInt(el.dataset.frame) === idx);
+    });
+    bsCaption.textContent = bakeryFrames[idx].caption;
+  }
+}
+
+bsClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  storyHidden = true;
+  bakeryStory.classList.remove('visible');
+  bakeryStory.style.display = 'none';
+});
+
+/* =========================================================
+   ДАННЫЕ
+   ========================================================= */
+const siteData = {
+  gallery: [
+    { src: "https://avatars.mds.yandex.net/get-altay/17783115/2a0000019bf6c825f6481bd1d300c08c0fd0/XXXL", placeholder: "Атмосфера Амбара" },
+    { src: "https://avatars.mds.yandex.net/get-altay/19547275/2a0000019c601b8c818645364b879b62d045/XXXL", placeholder: "Витрина" },
+    { src: "https://avatars.mds.yandex.net/get-altay/19619196/2a0000019b93117bd7e0bb83a105b2e2d565/XXXL", placeholder: "Круассаны" },
+    { src: "https://avatars.mds.yandex.net/get-altay/14234746/2a00000193a83171fc6eeddda88608eb283e/XXXL", placeholder: "Кофе" },
+    { src: "https://avatars.mds.yandex.net/get-altay/15232272/2a00000194377aa318fabb986340b5a929bd/XXXL", placeholder: "Интерьер" },
+    { src: "https://avatars.mds.yandex.net/get-altay/15629777/2a000001995059288c802a20f9489b734446/XXXL", placeholder: "Утро в Амбаре" }
+  ],
+  bakeryHero: [
+    { name: "Круассан классический", desc: "слоёное тесто, вологодское масло", price: 180, label: "Главное" },
+    { name: "Фильтр-кофе", desc: "альтернатива, сезонное зерно", price: 220, label: "К кофе" }
+  ],
+  bakery: [
+    { name: "Круассан с миндалём", desc: "франжипан, миндальные лепестки", price: 240, tag: "хит" },
+    { name: "Слойка с голубикой", desc: "сезонная начинка", price: 220, tag: "" },
+    { name: "Сосиска в слоёном тесте", desc: "домашняя выпечка", price: 190, tag: "" },
+    { name: "Мадлен (3 шт.)", desc: "бисквитное печенье в шоколаде", price: 260, tag: "новинка" },
+    { name: "Хлеб на закваске", desc: "пшенично-ржаной, буханка", price: 320, tag: "хлеб дня" }
+  ],
+  menuDrinks: [
+    { name: "Эспрессо", desc: "двойной", price: 140 },
+    { name: "Капучино", desc: "плотная пенка", price: 180 },
+    { name: "Флэт уайт", desc: "на цельном молоке", price: 200 },
+    { name: "Фильтр", desc: "альтернатива, сезонное зерно", price: 220 },
+    { name: "Какао", desc: "на вологодском молоке", price: 170 },
+    { name: "Чай", desc: "листовой, на выбор", price: 150 }
+  ],
+  menuFood: [
+    { name: "Сэндвич на бриоши", desc: "с цыплёнком и соусом", price: 420 },
+    { name: "Сырники", desc: "со сметаной и ягодным соусом", price: 390 },
+    { name: "Овсяная каша", desc: "с карамелизированным бананом", price: 290 },
+    { name: "Салат с тостом", desc: "сыр таледжио, микрозелень", price: 480 }
+  ],
+  morning: [
+    { time: "06:30", title: "Замес", desc: "закваска и мука" },
+    { time: "07:30", title: "Печь", desc: "первая партия" },
+    { time: "08:00", title: "Круассаны", desc: "из печи" },
+    { time: "09:00", title: "Кофе", desc: "свежая обжарка" },
+    { time: "12:00", title: "Пик", desc: "свежая выпечка" },
+    { time: "18:00", title: "Тёплый свет", desc: "вечерняя атмосфера" }
+  ],
+  route: [
+    "Мы на <strong>ул. Марии Ульяновой, 14</strong> — в самом центре Вологды.",
+    "Ближайшая остановка — «Центр» или «Марии Ульяновой», 2–3 минуты пешком.",
+    "Ищите вывеску «Амбар» и витрину с круассанами — мимо сложно пройти.",
+    "Внутри — тёплый свет, запах выпечки и место, чтобы посидеть с кофе."
+  ]
+};
+
+function renderBakeryHero(items) {
+  const grid = document.getElementById('bakeryHeroGrid');
+  grid.innerHTML = items.map(item => `
+    <div class="bakery-hero-card">
+      <div class="bhc-label">${item.label}</div>
+      <div class="bhc-name">${item.name}</div>
+      <div class="bhc-desc">${item.desc}</div>
+      <div class="bhc-price">${item.price}</div>
+    </div>`).join('');
+}
+
+function renderBakery(items) {
+  const grid = document.getElementById('bakeryGrid');
+  grid.innerHTML = items.map(item => {
+    const tagHtml = item.tag
+      ? `<div class="bakery-tag ${item.tag === 'новинка' ? 'new' : ''}">${item.tag}</div>`
+      : '';
+    return `
+      <div class="bakery-card">
+        ${tagHtml}
+        <div class="bakery-name">${item.name}</div>
+        <div class="bakery-desc">${item.desc}</div>
+        <div class="bakery-price">${item.price}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderMenuInto(containerId, items) {
+  const el = document.getElementById(containerId);
+  const half = Math.ceil(items.length / 2);
+  const left = items.slice(0, half);
+  const right = items.slice(half);
+  const renderCol = (list) => list.map(item => `
+    <div class="menu-item">
+      <div><span class="name">${item.name}</span><span class="desc">${item.desc}</span></div>
+      <div class="price">${item.price}</div>
+    </div>`).join('');
+  el.innerHTML = `<div>${renderCol(left)}</div><div>${renderCol(right)}</div>`;
+}
+
+function renderMorning(steps) {
+  const el = document.getElementById('morningTimeline');
+  el.innerHTML = steps.map(s => `
+    <div class="morning-step">
+      <div class="ms-time">${s.time}</div>
+      <div class="ms-title">${s.title}</div>
+      <div class="ms-desc">${s.desc}</div>
+    </div>`).join('');
+}
+
+function renderRoute(route) {
+  document.getElementById('routeList').innerHTML = route.map(step => `<li>${step}</li>`).join('');
+}
+
+let carouselIndex = 0;
+let carouselItems = [];
+
+function renderCarousel(gallery) {
+  const stage = document.getElementById('atmoStage');
+  const dots = document.getElementById('atmoDots');
+  carouselItems = gallery;
+  if (carouselIndex >= carouselItems.length) carouselIndex = 0;
+
+  stage.innerHTML = carouselItems.map((item) => {
+    const hasSrc = item.src && item.src.trim() !== '';
+    return `
+      <div class="atmo-slide">
+        ${hasSrc
+          ? `<img src="${item.src}" alt="${item.placeholder || ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+             <div class="slide-placeholder" style="display:none;">${item.placeholder || 'Фото'}</div>`
+          : `<div class="slide-placeholder">${item.placeholder || 'Вставьте URL фото'}</div>`
+        }
+      </div>`;
+  }).join('');
+
+  dots.innerHTML = carouselItems.map((_, i) =>
+    `<button class="atmo-dot" data-dot="${i}" aria-label="Фото ${i+1}"></button>`
+  ).join('');
+
+  dots.querySelectorAll('.atmo-dot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      carouselIndex = parseInt(btn.dataset.dot);
+      updateCarousel();
+    });
+  });
+
+  updateCarousel();
+}
+
+function updateCarousel() {
+  const slides = document.querySelectorAll('.atmo-slide');
+  const dots = document.querySelectorAll('.atmo-dot');
+  const n = slides.length;
+  if (!n) return;
+
+  slides.forEach((slide, i) => {
+    slide.classList.remove('pos-center', 'pos-left', 'pos-right', 'pos-hidden');
+    let diff = i - carouselIndex;
+    if (diff > n / 2) diff -= n;
+    if (diff < -n / 2) diff += n;
+    if (diff === 0) slide.classList.add('pos-center');
+    else if (diff === -1) slide.classList.add('pos-left');
+    else if (diff === 1) slide.classList.add('pos-right');
+    else slide.classList.add('pos-hidden');
+  });
+
+  dots.forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
+}
+
+document.getElementById('atmoPrev').addEventListener('click', () => {
+  if (!carouselItems.length) return;
+  carouselIndex = (carouselIndex - 1 + carouselItems.length) % carouselItems.length;
+  updateCarousel();
+});
+document.getElementById('atmoNext').addEventListener('click', () => {
+  if (!carouselItems.length) return;
+  carouselIndex = (carouselIndex + 1) % carouselItems.length;
+  updateCarousel();
+});
+
+let carouselTimer = null;
+function startCarouselAuto() {
+  stopCarouselAuto();
+  carouselTimer = setInterval(() => {
+    if (!carouselItems.length) return;
+    carouselIndex = (carouselIndex + 1) % carouselItems.length;
+    updateCarousel();
+  }, 5500);
+}
+function stopCarouselAuto() { if (carouselTimer) clearInterval(carouselTimer); carouselTimer = null; }
+
+const atmoSection = document.querySelector('.atmosphere');
+if (atmoSection) {
+  atmoSection.addEventListener('mouseenter', stopCarouselAuto);
+  atmoSection.addEventListener('mouseleave', startCarouselAuto);
+}
+
+function initTilt() {
+  const tiltEls = document.querySelectorAll('.section-block, .hours .card, .bakery-card, .bakery-hero-card');
+  tiltEls.forEach(el => {
+    if (el.dataset.tiltInit) return;
+    el.dataset.tiltInit = '1';
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const max = el.classList.contains('bakery-card') || el.classList.contains('bakery-hero-card') ? 4 : 2;
+      el.style.transform = `perspective(1000px) rotateY(${x * max}deg) rotateX(${-y * max}deg)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+}
+
+function initBgShapes() {
+  const container = document.getElementById('bgShapes');
+  container.innerHTML = '';
+
+  const croissantSVG = `
+    <svg width="64" height="52" viewBox="0 0 100 80">
+      <path d="M10 50 Q20 20 50 20 Q80 20 90 50 Q70 44 50 44 Q30 44 10 50Z" fill="rgba(184,166,144,.25)" stroke="#8a7a68" stroke-width="3"/>
+    </svg>`;
+  const coffeeSVG = `
+    <svg width="48" height="58" viewBox="0 0 60 80">
+      <path d="M10 24 H44 V46 C44 56 36 62 27 62 C18 62 10 56 10 46 Z" fill="none" stroke="#8a7a68" stroke-width="3"/>
+      <path d="M44 30 H52 C58 30 60 36 60 40 C60 44 58 50 52 50 H44" fill="none" stroke="#8a7a68" stroke-width="3"/>
+      <path d="M18 16 C18 10 24 8 24 2" stroke="#8a7a68" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <path d="M30 16 C30 10 36 8 36 2" stroke="#8a7a68" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    </svg>`;
+  const grainSVG = `
+    <svg width="36" height="52" viewBox="0 0 50 80">
+      <ellipse cx="25" cy="40" rx="16" ry="30" fill="rgba(61,58,54,.2)" stroke="#3d3a36" stroke-width="3"/>
+      <path d="M25 12 C30 24 20 40 25 52 C28 60 25 66 25 68" stroke="#3d3a36" stroke-width="2" fill="none"/>
+    </svg>`;
+
+  const shapes = [croissantSVG, coffeeSVG, grainSVG];
+
+  const isMobile = window.innerWidth < 760;
+  const count = isMobile ? 6 : 14;
+  const cols = Math.ceil(Math.sqrt(count * 1.6));
+  const rows = Math.ceil(count / cols);
+
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'bg-shape';
+    el.innerHTML = shapes[i % shapes.length];
+
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const cellW = 100 / cols;
+    const cellH = 100 / rows;
+    const left = col * cellW + Math.random() * cellW * 0.7;
+    const top = row * cellH + Math.random() * cellH * 0.7;
+
+    el.style.left = left + '%';
+    el.style.top = top + '%';
+    el.style.animationDelay = (-Math.random() * 40) + 's';
+    el.style.animationDuration = (35 + Math.random() * 30) + 's';
+    el.style.opacity = (0.07 + Math.random() * 0.05).toFixed(2);
+    el.style.transform = `scale(${0.7 + Math.random() * 0.6})`;
+    container.appendChild(el);
+  }
+}
+
+document.body.classList.add('js-ready');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+const topnav = document.getElementById('topnav');
+const onScroll = () => {
+  topnav.classList.toggle('scrolled', window.scrollY > 40);
+  updateBakeryStory();
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderBakeryHero(siteData.bakeryHero);
+  renderBakery(siteData.bakery);
+  renderMenuInto('menuDrinks', siteData.menuDrinks);
+  renderMenuInto('menuFood', siteData.menuFood);
+  renderMorning(siteData.morning);
+  renderRoute(siteData.route);
+  renderCarousel(siteData.gallery);
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  initTilt();
+  initBgShapes();
+  onScroll();
+  updateBakeryStory();
+  startCarouselAuto();
+
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+  }, 1500);
+});
+</script>
+
+</body>
+</html>
