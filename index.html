@@ -7,34 +7,51 @@
 <meta name="description" content="Семейный ресторан «Сибирский экспресс» в Красноярске. Традиционная русская кухня, паровозики с напитками, детское меню и игровая зона. Мастер-классы для детей.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#12100e;
-    --bg-soft:#1c1916;
-    --card:#231f1b;
-    --gold:#c9a227;
-    --gold-light:#e8c766;
-    --text:#f2ece4;
-    --muted:#a89f94;
-    --line:#332d26;
+    --bg:#0d0d0d;
+    --bg-soft:#151515;
+    --card:#1b1b1b;
+    --line:#2a2a2a;
+    --line-strong:#3a3a3a;
+    --white:#f5f5f5;
+    --silver:#c7c7c7;
+    --muted:#8a8a8a;
+    --accent:#ffffff;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
     font-family:'Montserrat',Arial,sans-serif;
     background:var(--bg);
-    color:var(--text);
+    color:var(--white);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
+  /* ---------- ICONS ---------- */
+  .icon{
+    width:28px;height:28px;
+    stroke:var(--silver);
+    stroke-width:1.5;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    transition:.25s;
+  }
+  .icon-sm{width:18px;height:18px}
+  .icon-lg{width:40px;height:40px}
+  .feature:hover .icon,
+  .dish:hover .icon,
+  .mc-card:hover .icon{stroke:var(--white)}
+
   /* ---------- HEADER ---------- */
   header{
     position:sticky;top:0;z-index:100;
-    background:rgba(18,16,14,.92);
+    background:rgba(13,13,13,.94);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
@@ -44,21 +61,22 @@
     padding:16px 24px;
   }
   .logo{
-    font-weight:900;font-size:20px;letter-spacing:2px;
-    text-transform:uppercase;color:var(--gold-light);
-    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:18px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--white);
+    display:flex;align-items:center;gap:12px;
   }
-  .logo span{font-size:24px}
+  .logo .icon{width:26px;height:26px;stroke:var(--white)}
   .nav-links{display:flex;gap:28px;font-size:14px;font-weight:400;letter-spacing:.5px}
   .nav-links a{color:var(--muted);transition:.25s}
-  .nav-links a:hover{color:var(--gold-light)}
+  .nav-links a:hover{color:var(--white)}
   .nav-phone{
-    font-weight:600;font-size:14px;color:var(--gold-light);
-    border:1px solid var(--gold);padding:8px 16px;border-radius:30px;
-    transition:.25s;white-space:nowrap;
+    font-weight:500;font-size:13.5px;color:var(--white);
+    border:1px solid var(--line-strong);padding:8px 16px;border-radius:30px;
+    transition:.25s;white-space:nowrap;letter-spacing:.3px;
   }
-  .nav-phone:hover{background:var(--gold);color:#12100e}
-  .burger{display:none;font-size:26px;color:var(--gold-light);background:none;border:none;cursor:pointer}
+  .nav-phone:hover{background:var(--white);color:var(--bg);border-color:var(--white)}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+  .burger .icon{stroke:var(--white)}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -68,21 +86,24 @@
     text-align:center;
     padding:80px 24px;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(201,162,39,.18), transparent 60%),
-      linear-gradient(180deg,#12100e 0%,#1a1512 100%);
+      radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.06), transparent 55%),
+      linear-gradient(180deg,#0d0d0d 0%,#141414 100%);
     overflow:hidden;
   }
   .hero::before{
-    content:"🚂";
-    position:absolute;font-size:340px;opacity:.04;
-    top:50%;left:50%;transform:translate(-50%,-50%);
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.07) 1px, transparent 0);
+    background-size:32px 32px;
+    opacity:.5;
     pointer-events:none;
   }
   .hero-inner{position:relative;max-width:820px}
   .hero-tag{
-    display:inline-block;font-size:12px;letter-spacing:3px;
-    text-transform:uppercase;color:var(--gold);
-    border:1px solid var(--gold);padding:6px 18px;border-radius:30px;
+    display:inline-block;font-size:11px;letter-spacing:3px;
+    text-transform:uppercase;color:var(--silver);
+    border:1px solid var(--line-strong);padding:6px 18px;border-radius:30px;
     margin-bottom:28px;
   }
   .hero h1{
@@ -90,8 +111,9 @@
     font-weight:900;line-height:1.1;
     text-transform:uppercase;letter-spacing:1px;
     margin-bottom:24px;
+    color:var(--white);
   }
-  .hero h1 em{font-style:normal;color:var(--gold-light)}
+  .hero h1 em{font-style:normal;color:var(--silver)}
   .hero p{
     font-size:clamp(15px,2vw,18px);color:var(--muted);
     max-width:620px;margin:0 auto 36px;
@@ -99,25 +121,26 @@
   .btn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
   .btn{
     display:inline-block;padding:15px 34px;border-radius:40px;
-    font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+    font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
     transition:.25s;cursor:pointer;border:none;
   }
-  .btn-gold{background:var(--gold);color:#12100e}
-  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
-  .btn-ghost{border:1px solid var(--line);color:var(--text)}
-  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light)}
+  .btn-light{background:var(--white);color:var(--bg)}
+  .btn-light:hover{background:var(--silver);transform:translateY(-2px)}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--white);background:transparent}
+  .btn-ghost:hover{border-color:var(--white);background:rgba(255,255,255,.04)}
 
   /* ---------- SECTIONS ---------- */
   section{padding:90px 24px}
   .container{max-width:1200px;margin:0 auto}
   .sec-head{text-align:center;margin-bottom:56px}
   .sec-head .kicker{
-    font-size:12px;letter-spacing:3px;text-transform:uppercase;
-    color:var(--gold);margin-bottom:14px;display:block;
+    font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:14px;display:block;
   }
   .sec-head h2{
     font-size:clamp(26px,4vw,42px);font-weight:900;
     text-transform:uppercase;letter-spacing:1px;line-height:1.15;
+    color:var(--white);
   }
   .sec-head p{color:var(--muted);max-width:620px;margin:18px auto 0;font-size:15px}
 
@@ -130,9 +153,14 @@
     background:var(--card);border:1px solid var(--line);
     border-radius:18px;padding:32px 28px;transition:.3s;
   }
-  .feature:hover{border-color:var(--gold);transform:translateY(-4px)}
-  .feature .ico{font-size:34px;margin-bottom:18px;display:block}
-  .feature h3{font-size:18px;font-weight:700;margin-bottom:10px;color:var(--gold-light)}
+  .feature:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+  .feature .ico-wrap{
+    width:52px;height:52px;border-radius:14px;
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:18px;
+  }
+  .feature h3{font-size:17px;font-weight:600;margin-bottom:10px;color:var(--white)}
   .feature p{font-size:14.5px;color:var(--muted)}
 
   /* ---------- MENU ---------- */
@@ -147,62 +175,81 @@
     display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
     transition:.25s;
   }
-  .dish:hover{border-color:var(--gold)}
-  .dish-name{font-weight:600;font-size:16px;margin-bottom:6px}
+  .dish:hover{border-color:var(--line-strong)}
+  .dish-name{font-weight:600;font-size:15.5px;margin-bottom:6px;color:var(--white)}
   .dish-desc{font-size:13px;color:var(--muted);line-height:1.5}
   .dish-price{
-    font-weight:700;color:var(--gold-light);font-size:16px;white-space:nowrap;
+    font-weight:600;color:var(--silver);font-size:15px;white-space:nowrap;
   }
 
   /* ---------- MASTER CLASSES ---------- */
   .mc-card{
-    background:linear-gradient(135deg,#2a231c,#1c1916);
-    border:1px solid var(--gold);
-    border-radius:20px;padding:40px;
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:20px;padding:44px;
     max-width:820px;margin:0 auto;text-align:center;
+  }
+  .mc-card .mc-ico{
+    width:56px;height:56px;border-radius:16px;
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
   }
   .mc-card h3{
     font-size:clamp(20px,3vw,28px);font-weight:900;
-    text-transform:uppercase;color:var(--gold-light);margin-bottom:18px;
+    text-transform:uppercase;color:var(--white);margin-bottom:18px;
   }
   .mc-card p{color:var(--muted);font-size:15px;margin-bottom:14px}
   .mc-list{
     list-style:none;text-align:left;max-width:560px;margin:0 auto 24px;
-    display:grid;gap:10px;
+    display:grid;gap:12px;
   }
   .mc-list li{
-    font-size:14.5px;color:var(--text);padding-left:28px;position:relative;
+    font-size:14.5px;color:var(--white);padding-left:26px;position:relative;
   }
-  .mc-list li::before{
-    content:"✦";position:absolute;left:0;color:var(--gold);
+  .mc-list li .icon{
+    position:absolute;left:0;top:3px;width:16px;height:16px;stroke:var(--muted);
   }
   .mc-info{
     display:flex;gap:28px;justify-content:center;flex-wrap:wrap;
-    margin-top:24px;padding-top:24px;border-top:1px solid var(--line);
+    margin-top:28px;padding-top:26px;border-top:1px solid var(--line);
     font-size:14px;
   }
-  .mc-info div span{display:block;color:var(--muted);font-size:12px;letter-spacing:1px;text-transform:uppercase}
-  .mc-info div strong{color:var(--gold-light);font-size:16px}
+  .mc-info div span{display:block;color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+  .mc-info div strong{color:var(--white);font-size:16px;font-weight:600}
 
   /* ---------- CONTACTS ---------- */
   #contacts{background:var(--bg-soft)}
   .contacts-grid{
     display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;
   }
-  .contact-item{margin-bottom:26px}
-  .contact-item .lbl{
-    font-size:12px;letter-spacing:2px;text-transform:uppercase;
-    color:var(--gold);margin-bottom:8px;display:block;
+  .contact-item{
+    margin-bottom:26px;
+    display:flex;gap:16px;align-items:flex-start;
   }
-  .contact-item .val{font-size:18px;font-weight:600}
-  .contact-item .val a:hover{color:var(--gold-light)}
+  .contact-item .c-ico{
+    width:44px;height:44px;flex-shrink:0;border-radius:12px;
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-item .lbl{
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:4px;display:block;
+  }
+  .contact-item .val{font-size:16px;font-weight:500;color:var(--white)}
+  .contact-item .val a:hover{color:var(--silver)}
   .map-box{
     background:var(--card);border:1px solid var(--line);
-    border-radius:18px;padding:40px;text-align:center;
+    border-radius:18px;padding:44px 32px;text-align:center;
     min-height:280px;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:14px;
+    align-items:center;justify-content:center;gap:16px;
   }
-  .map-box .ico{font-size:44px}
+  .map-box .m-ico{
+    width:60px;height:60px;border-radius:16px;
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .map-box strong{font-size:17px;color:var(--white);font-weight:600}
   .map-box p{color:var(--muted);font-size:14px}
 
   /* ---------- FOOTER ---------- */
@@ -210,9 +257,9 @@
     padding:40px 24px;text-align:center;
     border-top:1px solid var(--line);font-size:13px;color:var(--muted);
   }
-  footer .soc{display:flex;gap:18px;justify-content:center;margin-bottom:18px}
-  footer .soc a{color:var(--gold-light);font-weight:600}
-  footer .soc a:hover{text-decoration:underline}
+  footer .soc{display:flex;gap:24px;justify-content:center;margin-bottom:18px}
+  footer .soc a{color:var(--silver);font-weight:500;display:inline-flex;align-items:center;gap:8px}
+  footer .soc a:hover{color:var(--white)}
 
   /* ---------- RESPONSIVE ---------- */
   @media(max-width:900px){
@@ -234,10 +281,84 @@
 </head>
 <body>
 
+<!-- ===== SVG SPRITE (иконки) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- поезд -->
+    <symbol id="i-train" viewBox="0 0 24 24">
+      <rect x="4" y="3" width="16" height="13" rx="3"/>
+      <path d="M4 10h16"/>
+      <circle cx="8.5" cy="6.5" r="1"/>
+      <circle cx="15.5" cy="6.5" r="1"/>
+      <path d="M7 16v2M17 16v2M6 21l1.5-3M18 21l-1.5-3"/>
+    </symbol>
+    <!-- здание / архитектура -->
+    <symbol id="i-building" viewBox="0 0 24 24">
+      <path d="M3 21h18"/>
+      <path d="M5 21V8l7-5 7 5v13"/>
+      <path d="M9 21v-6h6v6"/>
+      <path d="M10 10h.01M14 10h.01"/>
+    </symbol>
+    <!-- чашка / напиток -->
+    <symbol id="i-cup" viewBox="0 0 24 24">
+      <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/>
+      <path d="M17 9h2a3 3 0 0 1 0 6h-2"/>
+      <path d="M7 3v2M11 3v2"/>
+    </symbol>
+    <!-- ребёнок / игрушка -->
+    <symbol id="i-child" viewBox="0 0 24 24">
+      <circle cx="12" cy="6" r="3"/>
+      <path d="M12 9v6M8 12h8"/>
+      <path d="M9 21l3-6 3 6"/>
+    </symbol>
+    <!-- часы -->
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 7v5l3 2"/>
+    </symbol>
+    <!-- колпак повара -->
+    <symbol id="i-chef" viewBox="0 0 24 24">
+      <path d="M6 13a4 4 0 0 1 0-8 4 4 0 0 1 6-2 4 4 0 0 1 6 2 4 4 0 0 1 0 8"/>
+      <path d="M6 13v6h12v-6"/>
+      <path d="M6 16h12"/>
+    </symbol>
+    <!-- галочка / плюс -->
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M20 6L9 17l-5-5"/>
+    </symbol>
+    <!-- телефон -->
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/>
+    </symbol>
+    <!-- метка на карте -->
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 21s-7-5.7-7-11a7 7 0 0 1 14 0c0 5.3-7 11-7 11z"/>
+      <circle cx="12" cy="10" r="2.5"/>
+    </symbol>
+    <!-- часы работы -->
+    <symbol id="i-schedule" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="16" rx="2"/>
+      <path d="M3 10h18M8 3v4M16 3v4"/>
+    </symbol>
+    <!-- соцсеть / ссылка -->
+    <symbol id="i-link" viewBox="0 0 24 24">
+      <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/>
+      <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/>
+    </symbol>
+    <!-- меню-бургер -->
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ===== HEADER ===== -->
 <header>
   <nav class="nav">
-    <a href="#" class="logo"><span>🚂</span>Сибирский экспресс</a>
+    <a href="#" class="logo">
+      <svg class="icon"><use href="#i-train"/></svg>
+      Сибирский экспресс
+    </a>
     <div class="nav-links" id="navLinks">
       <a href="#about">О ресторане</a>
       <a href="#menu">Меню</a>
@@ -245,7 +366,9 @@
       <a href="#contacts">Контакты</a>
     </div>
     <a href="tel:+73912340825" class="nav-phone">+7 (391) 234-08-25</a>
-    <button class="burger" id="burger" aria-label="Меню">☰</button>
+    <button class="burger" id="burger" aria-label="Меню">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </button>
   </nav>
 </header>
 
@@ -256,7 +379,7 @@
     <h1>Гастрономическое<br><em>путешествие</em> по Сибири</h1>
     <p>Традиционная русская кухня, напитки на игрушечных паровозиках, миниатюрные копии знаменитых зданий Красноярска и просторная игровая зона для малышей.</p>
     <div class="btn-row">
-      <a href="tel:+73912340825" class="btn btn-gold">Забронировать стол</a>
+      <a href="tel:+73912340825" class="btn btn-light">Забронировать стол</a>
       <a href="#kids" class="btn btn-ghost">Мастер-классы для детей</a>
     </div>
   </div>
@@ -272,22 +395,22 @@
     </div>
     <div class="about-grid">
       <div class="feature">
-        <span class="ico">🏛️</span>
+        <div class="ico-wrap"><svg class="icon"><use href="#i-building"/></svg></div>
         <h3>Удивительные детали интерьера</h3>
         <p>Настоящие миниатюрные копии знаменитых зданий Красноярска, выполненные вручную. Уникальное сочетание искусства и гостеприимства.</p>
       </div>
       <div class="feature">
-        <span class="ico">🚂</span>
+        <div class="ico-wrap"><svg class="icon"><use href="#i-train"/></svg></div>
         <h3>Магия подачи блюд</h3>
         <p>Наши фирменные напитки путешествуют прямо к вашему столу на крошечных игрушечных паровозиках — праздник даже в повседневном визите.</p>
       </div>
       <div class="feature">
-        <span class="ico">🧸</span>
+        <div class="ico-wrap"><svg class="icon"><use href="#i-child"/></svg></div>
         <h3>Особое внимание малышам</h3>
         <p>Специально разработанное детское меню порадует юных гурманов, а просторная игровая зона позволит родителям отдохнуть в спокойствии.</p>
       </div>
       <div class="feature">
-        <span class="ico">🕛</span>
+        <div class="ico-wrap"><svg class="icon"><use href="#i-clock"/></svg></div>
         <h3>Ждём ежедневно</h3>
         <p>С 12:00 до 0:00 — чтобы подарить вам уникальный опыт семейной трапезы, комфорт и заботливое обслуживание каждого гостя.</p>
       </div>
@@ -359,14 +482,15 @@
       <p>Настоящий праздник для юных поварят: лепим пельмени, печём кексы и делаем временные татуировки под присмотром шеф-повара.</p>
     </div>
     <div class="mc-card">
+      <div class="mc-ico"><svg class="icon icon-lg"><use href="#i-chef"/></svg></div>
       <h3>Юный шеф-повар</h3>
       <p>Каждый ребёнок получает фирменный фартук и поварской колпак — и на время становится настоящим кондитером или поваром!</p>
       <ul class="mc-list">
-        <li>Узнаем секреты пышной выпечки и идеальной формы пельменей</li>
-        <li>Замесим тесто и слепим собственные шедевры</li>
-        <li>Украсим кексы по своему вкусу</li>
-        <li>Сделаем красивые временные татуировки, пока блюда готовятся</li>
-        <li>Устроим общую дегустацию — ведь самое вкусное то, что сделали вместе!</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Узнаем секреты пышной выпечки и идеальной формы пельменей</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Замесим тесто и слепим собственные шедевры</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Украсим кексы по своему вкусу</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Сделаем красивые временные татуировки, пока блюда готовятся</li>
+        <li><svg class="icon"><use href="#i-check"/></svg>Устроим общую дегустацию — ведь самое вкусное то, что сделали вместе!</li>
       </ul>
       <p>Подходит для детских дней рождения и классных выездов. Принимаем группы от 5 до 10 детей — уделим внимание каждому.</p>
       <div class="mc-info">
@@ -375,7 +499,7 @@
         <div><span>Запись</span><strong><a href="tel:+73912340825">+7 (391) 234-08-25</a></strong></div>
       </div>
       <div class="btn-row" style="margin-top:28px">
-        <a href="tel:+73912340825" class="btn btn-gold">Записаться на мастер-класс</a>
+        <a href="tel:+73912340825" class="btn btn-light">Записаться на мастер-класс</a>
       </div>
     </div>
   </div>
@@ -391,25 +515,37 @@
     <div class="contacts-grid">
       <div>
         <div class="contact-item">
-          <span class="lbl">Адрес</span>
-          <div class="val">г. Красноярск, ул. Партизана Железняка, 19г</div>
+          <div class="c-ico"><svg class="icon icon-sm"><use href="#i-pin"/></svg></div>
+          <div>
+            <span class="lbl">Адрес</span>
+            <div class="val">г. Красноярск, ул. Партизана Железняка, 19г</div>
+          </div>
         </div>
         <div class="contact-item">
-          <span class="lbl">Телефон для брони</span>
-          <div class="val"><a href="tel:+73912340825">+7 (391) 234-08-25</a></div>
+          <div class="c-ico"><svg class="icon icon-sm"><use href="#i-phone"/></svg></div>
+          <div>
+            <span class="lbl">Телефон для брони</span>
+            <div class="val"><a href="tel:+73912340825">+7 (391) 234-08-25</a></div>
+          </div>
         </div>
         <div class="contact-item">
-          <span class="lbl">Часы работы</span>
-          <div class="val">Ежедневно с 12:00 до 0:00</div>
+          <div class="c-ico"><svg class="icon icon-sm"><use href="#i-schedule"/></svg></div>
+          <div>
+            <span class="lbl">Часы работы</span>
+            <div class="val">Ежедневно с 12:00 до 0:00</div>
+          </div>
         </div>
         <div class="contact-item">
-          <span class="lbl">Мы в соцсетях</span>
-          <div class="val"><a href="https://vk.ru/sib.express" target="_blank" rel="noopener">ВКонтакте — «Сибирский ЭКСПРЕСС»</a></div>
+          <div class="c-ico"><svg class="icon icon-sm"><use href="#i-link"/></svg></div>
+          <div>
+            <span class="lbl">Мы в соцсетях</span>
+            <div class="val"><a href="https://vk.ru/sib.express" target="_blank" rel="noopener">ВКонтакте — «Сибирский ЭКСПРЕСС»</a></div>
+          </div>
         </div>
       </div>
       <div class="map-box">
-        <span class="ico">📍</span>
-        <strong style="font-size:18px;color:var(--gold-light)">ул. Партизана Железняка, 19г</strong>
+        <div class="m-ico"><svg class="icon icon-lg"><use href="#i-pin"/></svg></div>
+        <strong>ул. Партизана Железняка, 19г</strong>
         <p>Красноярск, семейный ресторан «Сибирский экспресс».<br>Удобная парковка и вход для гостей с детьми.</p>
         <a href="https://yandex.ru/maps/?text=Красноярск%20Партизана%20Железняка%2019г" target="_blank" rel="noopener" class="btn btn-ghost">Открыть на карте</a>
       </div>
@@ -420,14 +556,17 @@
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="soc">
-    <a href="https://vk.ru/sib.express" target="_blank" rel="noopener">ВКонтакте</a>
-    <a href="tel:+73912340825">+7 (391) 234-08-25</a>
+    <a href="https://vk.ru/sib.express" target="_blank" rel="noopener">
+      <svg class="icon icon-sm"><use href="#i-link"/></svg>ВКонтакте
+    </a>
+    <a href="tel:+73912340825">
+      <svg class="icon icon-sm"><use href="#i-phone"/></svg>+7 (391) 234-08-25
+    </a>
   </div>
   <p>© «Сибирский экспресс» — семейный ресторан в Красноярске. Все права защищены.</p>
 </footer>
 
 <script>
-  // мобильное меню
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
   burger.addEventListener('click', () => navLinks.classList.toggle('open'));
