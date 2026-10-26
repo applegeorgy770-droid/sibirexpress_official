@@ -33,7 +33,7 @@
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* лёгкий фоновый шум вместо ленты */
+  /* лёгкий фоновый шум */
   body::before{
     content:"";
     position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -84,8 +84,9 @@
     flex-shrink:0;
   }
   .logo img{
-    height:42px;width:auto;object-fit:contain;
-    border-radius:6px;
+    height:46px;width:46px;object-fit:contain;
+    border-radius:8px;
+    background:rgba(255,255,255,.04);
   }
   .nav-links{display:flex;gap:26px;font-size:14px;font-weight:400;letter-spacing:.5px}
   .nav-links a{color:var(--muted);transition:.25s;position:relative;white-space:nowrap}
@@ -210,7 +211,7 @@
   .dish-price{font-weight:600;color:var(--silver);font-size:15px;white-space:nowrap}
 
   /* ============================================================
-     НОВЫЙ БЛОК «ФОТО» — ЛЕНТА ПО ЦЕНТРУ
+     БЛОК «ФОТО» — ЛЕНТА ПО ЦЕНТРУ
      ============================================================ */
   #gallery{padding:80px 0 90px}
   #gallery .container{padding:0 24px}
@@ -219,6 +220,8 @@
     display:flex;
     flex-direction:column;
     gap:20px;
+    mask-image:linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
   }
   .ribbon-row{
     display:flex;
@@ -255,11 +258,6 @@
   @keyframes ribbon-right{
     from{transform:translate3d(-50%,0,0)}
     to{transform:translate3d(0,0,0)}
-  }
-  /* мягкие края ленты */
-  .gallery-ribbons{
-    mask-image:linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-    -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
   }
 
   /* ---------- MASTER CLASSES ---------- */
@@ -338,7 +336,7 @@
   footer .soc a:hover{color:var(--white)}
 
   /* ============================================================
-     ПАДАЮЩИЙ ЛИСТИК (веточка)
+     ПАДАЮЩИЙ ЛИСТИК + ВЕТОЧКА
      ============================================================ */
   .leaf-layer{
     position:fixed;
@@ -422,7 +420,8 @@
     .ribbon-track img{width:220px;height:150px}
     .ribbon-track{gap:14px;padding-right:14px}
     .gallery-ribbons{gap:14px}
-    .logo img{height:34px}
+    .logo img{height:38px;width:38px}
+    .logo{font-size:14px;letter-spacing:1px}
   }
   @media(prefers-reduced-motion:reduce){
     .ribbon-row,.leaf,.corner-branch{animation:none!important}
@@ -512,7 +511,7 @@
 <header>
   <nav class="nav">
     <a href="#" class="logo">
-      <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="Логотип «Сибирский экспресс»">
+      <img src="https://sun9-81.vkuserphoto.ru/s/v1/ig2/vbxZamffSfRyea6-8-67QvmwREgqYyi6jd9Wbt0Wry3qFDA1o4xD1lccX-UYhVUHwSgeQ7kpXsW9FDPqJL1ZoBlj.jpg?quality=95&as=32x31,48x47,72x70,108x105,160x155,240x233,360x350,480x466,540x524,640x621,720x699,1080x1049,1280x1243,1440x1398,1481x1438&from=bu&u=CeMASKbTc-dni-2Lzu0gA0VwAJgX84NUQWwBl8lzI9g&cs=1481x0" alt="Логотип «Сибирский экспресс»">
       Сибирский экспресс
     </a>
     <div class="nav-right">
@@ -577,7 +576,7 @@
   </div>
 </section>
 
-<!-- ===== НОВЫЙ БЛОК «ФОТО» ===== -->
+<!-- ===== БЛОК «ФОТО» ===== -->
 <section id="gallery">
   <div class="container">
     <div class="sec-head reveal">
@@ -590,43 +589,35 @@
     <!-- ряд 1 -->
     <div class="ribbon-row">
       <div class="ribbon-track">
-        <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
       </div>
       <div class="ribbon-track" aria-hidden="true">
-        <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
       </div>
     </div>
     <!-- ряд 2 -->
     <div class="ribbon-row reverse">
       <div class="ribbon-track">
-        <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
       </div>
       <div class="ribbon-track" aria-hidden="true">
-        <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
       </div>
     </div>
   </div>
