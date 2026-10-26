@@ -18,7 +18,6 @@
     --white:#f5f5f5;
     --silver:#c7c7c7;
     --muted:#8a8a8a;
-    --accent:#ffffff;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -28,11 +27,77 @@
     color:var(--white);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
   }
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* ---------- ICONS ---------- */
+  /* ============================================================
+     ФОНОВАЯ БЕГУЩАЯ ЛЕНТА ИЗ ФОТО
+     ============================================================ */
+  .photo-ribbon{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:6vh 0;
+    opacity:.20;
+    filter:grayscale(1) contrast(1.05) brightness(.75);
+    mask-image:linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+  .ribbon-row{
+    display:flex;
+    width:max-content;
+    animation:ribbon-left 90s linear infinite;
+    will-change:transform;
+  }
+  .ribbon-row.reverse{animation-name:ribbon-right;animation-duration:110s}
+  .ribbon-track{
+    display:flex;
+    gap:14px;
+    padding-right:14px;
+    flex-shrink:0;
+  }
+  .ribbon-track img{
+    width:280px;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+    flex-shrink:0;
+    background:var(--card);
+  }
+  @keyframes ribbon-left{
+    from{transform:translate3d(0,0,0)}
+    to{transform:translate3d(-50%,0,0)}
+  }
+  @keyframes ribbon-right{
+    from{transform:translate3d(-50%,0,0)}
+    to{transform:translate3d(0,0,0)}
+  }
+
+  /* затемняющая вуаль поверх ленты, чтобы текст читался */
+  .bg-veil{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(13,13,13,.55), rgba(13,13,13,.85) 70%, #0d0d0d 100%),
+      linear-gradient(180deg, rgba(13,13,13,.6), rgba(13,13,13,.9));
+  }
+
+  /* всё содержимое поверх фона */
+  header, section, footer{position:relative;z-index:2}
+
+  /* ============================================================
+     ИКОНКИ
+     ============================================================ */
   .icon{
     width:28px;height:28px;
     stroke:var(--silver);
@@ -48,11 +113,13 @@
   .dish:hover .icon,
   .mc-card:hover .icon{stroke:var(--white)}
 
-  /* ---------- HEADER ---------- */
+  /* ============================================================
+     HEADER
+     ============================================================ */
   header{
     position:sticky;top:0;z-index:100;
-    background:rgba(13,13,13,.94);
-    backdrop-filter:blur(10px);
+    background:rgba(13,13,13,.82);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
   .nav{
@@ -67,8 +134,13 @@
   }
   .logo .icon{width:26px;height:26px;stroke:var(--white)}
   .nav-links{display:flex;gap:28px;font-size:14px;font-weight:400;letter-spacing:.5px}
-  .nav-links a{color:var(--muted);transition:.25s}
+  .nav-links a{color:var(--muted);transition:.25s;position:relative}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;
+    background:var(--white);transition:width .25s;
+  }
   .nav-links a:hover{color:var(--white)}
+  .nav-links a:hover::after{width:100%}
   .nav-phone{
     font-weight:500;font-size:13.5px;color:var(--white);
     border:1px solid var(--line-strong);padding:8px 16px;border-radius:30px;
@@ -78,33 +150,26 @@
   .burger{display:none;background:none;border:none;cursor:pointer;padding:4px}
   .burger .icon{stroke:var(--white)}
 
-  /* ---------- HERO ---------- */
+  /* ============================================================
+     HERO
+     ============================================================ */
   .hero{
     position:relative;
     min-height:88vh;
     display:flex;align-items:center;justify-content:center;
     text-align:center;
     padding:80px 24px;
-    background:
-      radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.06), transparent 55%),
-      linear-gradient(180deg,#0d0d0d 0%,#141414 100%);
     overflow:hidden;
+    background:linear-gradient(180deg, rgba(13,13,13,.15) 0%, rgba(13,13,13,.75) 100%);
   }
-  .hero::before{
-    content:"";
-    position:absolute;inset:0;
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(255,255,255,.07) 1px, transparent 0);
-    background-size:32px 32px;
-    opacity:.5;
-    pointer-events:none;
-  }
-  .hero-inner{position:relative;max-width:820px}
+  .hero-inner{position:relative;max-width:820px;will-change:transform}
   .hero-tag{
     display:inline-block;font-size:11px;letter-spacing:3px;
     text-transform:uppercase;color:var(--silver);
     border:1px solid var(--line-strong);padding:6px 18px;border-radius:30px;
     margin-bottom:28px;
+    background:rgba(13,13,13,.4);
+    backdrop-filter:blur(4px);
   }
   .hero h1{
     font-size:clamp(34px,6vw,64px);
@@ -112,11 +177,13 @@
     text-transform:uppercase;letter-spacing:1px;
     margin-bottom:24px;
     color:var(--white);
+    text-shadow:0 2px 30px rgba(0,0,0,.6);
   }
   .hero h1 em{font-style:normal;color:var(--silver)}
   .hero p{
-    font-size:clamp(15px,2vw,18px);color:var(--muted);
+    font-size:clamp(15px,2vw,18px);color:#bdbdbd;
     max-width:620px;margin:0 auto 36px;
+    text-shadow:0 1px 12px rgba(0,0,0,.7);
   }
   .btn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
   .btn{
@@ -126,10 +193,12 @@
   }
   .btn-light{background:var(--white);color:var(--bg)}
   .btn-light:hover{background:var(--silver);transform:translateY(-2px)}
-  .btn-ghost{border:1px solid var(--line-strong);color:var(--white);background:transparent}
-  .btn-ghost:hover{border-color:var(--white);background:rgba(255,255,255,.04)}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--white);background:rgba(13,13,13,.35);backdrop-filter:blur(4px)}
+  .btn-ghost:hover{border-color:var(--white);background:rgba(255,255,255,.06)}
 
-  /* ---------- SECTIONS ---------- */
+  /* ============================================================
+     СЕКЦИИ
+     ============================================================ */
   section{padding:90px 24px}
   .container{max-width:1200px;margin:0 auto}
   .sec-head{text-align:center;margin-bottom:56px}
@@ -144,16 +213,21 @@
   }
   .sec-head p{color:var(--muted);max-width:620px;margin:18px auto 0;font-size:15px}
 
+  /* полупрозрачные подложки, чтобы текст читался на фото */
+  #about, #menu, #kids, #contacts{background:rgba(13,13,13,.55)}
+
   /* ---------- ABOUT ---------- */
   .about-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:24px;
   }
   .feature{
-    background:var(--card);border:1px solid var(--line);
+    background:rgba(27,27,27,.78);
+    border:1px solid var(--line);
     border-radius:18px;padding:32px 28px;transition:.3s;
+    backdrop-filter:blur(6px);
   }
-  .feature:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+  .feature:hover{border-color:var(--line-strong);transform:translateY(-4px);background:rgba(27,27,27,.92)}
   .feature .ico-wrap{
     width:52px;height:52px;border-radius:14px;
     border:1px solid var(--line-strong);
@@ -164,30 +238,30 @@
   .feature p{font-size:14.5px;color:var(--muted)}
 
   /* ---------- MENU ---------- */
-  #menu{background:var(--bg-soft)}
   .menu-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:20px;
   }
   .dish{
-    background:var(--card);border:1px solid var(--line);
+    background:rgba(27,27,27,.78);
+    border:1px solid var(--line);
     border-radius:16px;padding:24px 26px;
     display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
     transition:.25s;
+    backdrop-filter:blur(6px);
   }
-  .dish:hover{border-color:var(--line-strong)}
+  .dish:hover{border-color:var(--line-strong);background:rgba(27,27,27,.92);transform:translateY(-3px)}
   .dish-name{font-weight:600;font-size:15.5px;margin-bottom:6px;color:var(--white)}
   .dish-desc{font-size:13px;color:var(--muted);line-height:1.5}
-  .dish-price{
-    font-weight:600;color:var(--silver);font-size:15px;white-space:nowrap;
-  }
+  .dish-price{font-weight:600;color:var(--silver);font-size:15px;white-space:nowrap}
 
   /* ---------- MASTER CLASSES ---------- */
   .mc-card{
-    background:var(--card);
+    background:rgba(27,27,27,.85);
     border:1px solid var(--line-strong);
     border-radius:20px;padding:44px;
     max-width:820px;margin:0 auto;text-align:center;
+    backdrop-filter:blur(8px);
   }
   .mc-card .mc-ico{
     width:56px;height:56px;border-radius:16px;
@@ -204,12 +278,8 @@
     list-style:none;text-align:left;max-width:560px;margin:0 auto 24px;
     display:grid;gap:12px;
   }
-  .mc-list li{
-    font-size:14.5px;color:var(--white);padding-left:26px;position:relative;
-  }
-  .mc-list li .icon{
-    position:absolute;left:0;top:3px;width:16px;height:16px;stroke:var(--muted);
-  }
+  .mc-list li{font-size:14.5px;color:var(--white);padding-left:26px;position:relative}
+  .mc-list li .icon{position:absolute;left:0;top:3px;width:16px;height:16px;stroke:var(--muted)}
   .mc-info{
     display:flex;gap:28px;justify-content:center;flex-wrap:wrap;
     margin-top:28px;padding-top:26px;border-top:1px solid var(--line);
@@ -219,18 +289,13 @@
   .mc-info div strong{color:var(--white);font-size:16px;font-weight:600}
 
   /* ---------- CONTACTS ---------- */
-  #contacts{background:var(--bg-soft)}
-  .contacts-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;
-  }
-  .contact-item{
-    margin-bottom:26px;
-    display:flex;gap:16px;align-items:flex-start;
-  }
+  .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  .contact-item{margin-bottom:26px;display:flex;gap:16px;align-items:flex-start}
   .contact-item .c-ico{
     width:44px;height:44px;flex-shrink:0;border-radius:12px;
     border:1px solid var(--line-strong);
     display:flex;align-items:center;justify-content:center;
+    background:rgba(27,27,27,.7);
   }
   .contact-item .lbl{
     font-size:11px;letter-spacing:2px;text-transform:uppercase;
@@ -239,10 +304,12 @@
   .contact-item .val{font-size:16px;font-weight:500;color:var(--white)}
   .contact-item .val a:hover{color:var(--silver)}
   .map-box{
-    background:var(--card);border:1px solid var(--line);
+    background:rgba(27,27,27,.78);
+    border:1px solid var(--line);
     border-radius:18px;padding:44px 32px;text-align:center;
     min-height:280px;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:16px;
+    backdrop-filter:blur(6px);
   }
   .map-box .m-ico{
     width:60px;height:60px;border-radius:16px;
@@ -256,12 +323,88 @@
   footer{
     padding:40px 24px;text-align:center;
     border-top:1px solid var(--line);font-size:13px;color:var(--muted);
+    background:rgba(13,13,13,.75);
+    backdrop-filter:blur(8px);
   }
   footer .soc{display:flex;gap:24px;justify-content:center;margin-bottom:18px}
   footer .soc a{color:var(--silver);font-weight:500;display:inline-flex;align-items:center;gap:8px}
   footer .soc a:hover{color:var(--white)}
 
-  /* ---------- RESPONSIVE ---------- */
+  /* ============================================================
+     ПАДАЮЩИЙ ЛИСТИК (веточка)
+     ============================================================ */
+  .leaf-layer{
+    position:fixed;
+    inset:0;
+    z-index:3;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .leaf{
+    position:absolute;
+    top:-60px;
+    width:26px;height:26px;
+    color:var(--silver);
+    opacity:.55;
+    animation:leaf-fall linear infinite;
+    will-change:transform,opacity;
+  }
+  .leaf svg{width:100%;height:100%;display:block}
+  .leaf:nth-child(1){left:8%;animation-duration:14s;animation-delay:0s;width:22px;height:22px}
+  .leaf:nth-child(2){left:22%;animation-duration:18s;animation-delay:3s;width:30px;height:30px;opacity:.4}
+  .leaf:nth-child(3){left:37%;animation-duration:16s;animation-delay:6s;width:24px;height:24px}
+  .leaf:nth-child(4){left:52%;animation-duration:20s;animation-delay:1.5s;width:28px;height:28px;opacity:.45}
+  .leaf:nth-child(5){left:66%;animation-duration:15s;animation-delay:8s;width:22px;height:22px}
+  .leaf:nth-child(6){left:79%;animation-duration:19s;animation-delay:4.5s;width:32px;height:32px;opacity:.38}
+  .leaf:nth-child(7){left:91%;animation-duration:17s;animation-delay:10s;width:24px;height:24px}
+
+  @keyframes leaf-fall{
+    0%{
+      transform:translate3d(0,-10vh,0) rotate(0deg) scale(.9);
+      opacity:0;
+    }
+    8%{opacity:.6}
+    50%{
+      transform:translate3d(60px,50vh,0) rotate(180deg) scale(1);
+    }
+    85%{opacity:.5}
+    100%{
+      transform:translate3d(-40px,110vh,0) rotate(360deg) scale(.9);
+      opacity:0;
+    }
+  }
+
+  /* лёгкое покачивание веточки в углу */
+  .corner-branch{
+    position:fixed;
+    top:-10px;right:-10px;
+    width:220px;height:220px;
+    z-index:2;
+    pointer-events:none;
+    opacity:.18;
+    color:var(--silver);
+    transform-origin:top right;
+    animation:branch-sway 7s ease-in-out infinite;
+  }
+  .corner-branch svg{width:100%;height:100%}
+  @keyframes branch-sway{
+    0%,100%{transform:rotate(-3deg)}
+    50%{transform:rotate(3deg)}
+  }
+
+  /* ============================================================
+     ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
+     ============================================================ */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.is-visible{opacity:1;transform:translateY(0)}
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
   @media(max-width:900px){
     .contacts-grid{grid-template-columns:1fr}
     .nav-links{display:none}
@@ -269,22 +412,29 @@
     .burger{display:block}
     .nav-links.open{
       display:flex;flex-direction:column;position:absolute;
-      top:100%;left:0;right:0;background:var(--bg-soft);
+      top:100%;left:0;right:0;background:rgba(21,21,21,.98);
       padding:20px 24px;gap:18px;border-bottom:1px solid var(--line);
     }
+    .ribbon-track img{width:200px;height:130px}
+    .corner-branch{width:150px;height:150px;opacity:.12}
   }
   @media(max-width:520px){
     section{padding:64px 18px}
     .mc-card{padding:28px 20px}
+    .photo-ribbon{opacity:.15}
+    .ribbon-track img{width:160px;height:110px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .ribbon-row,.leaf,.corner-branch{animation:none!important}
+    .reveal{opacity:1;transform:none;transition:none}
   }
 </style>
 </head>
 <body>
 
-<!-- ===== SVG SPRITE (иконки) ===== -->
+<!-- ===== SVG SPRITE ===== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <!-- поезд -->
     <symbol id="i-train" viewBox="0 0 24 24">
       <rect x="4" y="3" width="16" height="13" rx="3"/>
       <path d="M4 10h16"/>
@@ -292,65 +442,131 @@
       <circle cx="15.5" cy="6.5" r="1"/>
       <path d="M7 16v2M17 16v2M6 21l1.5-3M18 21l-1.5-3"/>
     </symbol>
-    <!-- здание / архитектура -->
     <symbol id="i-building" viewBox="0 0 24 24">
       <path d="M3 21h18"/>
       <path d="M5 21V8l7-5 7 5v13"/>
       <path d="M9 21v-6h6v6"/>
       <path d="M10 10h.01M14 10h.01"/>
     </symbol>
-    <!-- чашка / напиток -->
     <symbol id="i-cup" viewBox="0 0 24 24">
       <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/>
       <path d="M17 9h2a3 3 0 0 1 0 6h-2"/>
       <path d="M7 3v2M11 3v2"/>
     </symbol>
-    <!-- ребёнок / игрушка -->
     <symbol id="i-child" viewBox="0 0 24 24">
       <circle cx="12" cy="6" r="3"/>
       <path d="M12 9v6M8 12h8"/>
       <path d="M9 21l3-6 3 6"/>
     </symbol>
-    <!-- часы -->
     <symbol id="i-clock" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="9"/>
       <path d="M12 7v5l3 2"/>
     </symbol>
-    <!-- колпак повара -->
     <symbol id="i-chef" viewBox="0 0 24 24">
       <path d="M6 13a4 4 0 0 1 0-8 4 4 0 0 1 6-2 4 4 0 0 1 6 2 4 4 0 0 1 0 8"/>
       <path d="M6 13v6h12v-6"/>
       <path d="M6 16h12"/>
     </symbol>
-    <!-- галочка / плюс -->
     <symbol id="i-check" viewBox="0 0 24 24">
       <path d="M20 6L9 17l-5-5"/>
     </symbol>
-    <!-- телефон -->
     <symbol id="i-phone" viewBox="0 0 24 24">
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/>
     </symbol>
-    <!-- метка на карте -->
     <symbol id="i-pin" viewBox="0 0 24 24">
       <path d="M12 21s-7-5.7-7-11a7 7 0 0 1 14 0c0 5.3-7 11-7 11z"/>
       <circle cx="12" cy="10" r="2.5"/>
     </symbol>
-    <!-- часы работы -->
     <symbol id="i-schedule" viewBox="0 0 24 24">
       <rect x="3" y="5" width="18" height="16" rx="2"/>
       <path d="M3 10h18M8 3v4M16 3v4"/>
     </symbol>
-    <!-- соцсеть / ссылка -->
     <symbol id="i-link" viewBox="0 0 24 24">
       <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/>
       <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/>
     </symbol>
-    <!-- меню-бургер -->
     <symbol id="i-menu" viewBox="0 0 24 24">
       <path d="M4 7h16M4 12h16M4 17h16"/>
     </symbol>
+    <!-- листик -->
+    <symbol id="i-leaf" viewBox="0 0 24 24">
+      <path d="M20 4C10 4 4 9 4 16c0 2 1 4 1 4s2-1 4-1c7 0 11-6 11-15z"/>
+      <path d="M4 20C8 14 13 9 20 4"/>
+    </symbol>
+    <!-- веточка с листьями -->
+    <symbol id="i-branch" viewBox="0 0 200 200">
+      <path d="M10 10C60 40 110 70 150 130" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M60 45c-14-6-24-2-30 8 12 4 24 2 30-8z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M95 70c14-4 22-14 20-26-12 2-20 12-20 26z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M120 95c-12-8-24-8-32 0 10 8 22 8 32 0z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M145 130c14-2 24-10 26-22-14 2-24 10-26 22z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M80 58c10 8 14 20 10 32-8-8-12-20-10-32z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M110 82c-2 14 4 24 16 28 0-14-6-24-16-28z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </symbol>
   </defs>
 </svg>
+
+<!-- ===== ФОНОВАЯ БЕГУЩАЯ ЛЕНТА ===== -->
+<div class="photo-ribbon" aria-hidden="true">
+  <div class="ribbon-row">
+    <div class="ribbon-track">
+      <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+    </div>
+    <div class="ribbon-track" aria-hidden="true">
+      <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+    </div>
+  </div>
+
+  <div class="ribbon-row reverse">
+    <div class="ribbon-track">
+      <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+    </div>
+    <div class="ribbon-track" aria-hidden="true">
+      <img src="https://avatars.mds.yandex.net/get-altay/18806283/2a0000019e2882cef6b219b70b74ea34426d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/18285113/2a0000019d9543ee601fbb04123756a6bf97/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17651669/2a0000019d9fb3e6863586c84f5f28cc903f/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19582126/2a0000019d6f8fe6f0391f3617936e8a3fd9/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/19555209/2a0000019bcb647e1fe64004243e94017320/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/16138055/2a0000019d77cf8203457c6faa76be95933d/XXXL" alt="" loading="lazy">
+      <img src="https://avatars.mds.yandex.net/get-altay/17737331/2a0000019eea3e813f84dec2b56ae7324452/XXXL" alt="" loading="lazy">
+    </div>
+  </div>
+</div>
+<div class="bg-veil" aria-hidden="true"></div>
+
+<!-- ===== ВЕТОЧКА В УГЛУ ===== -->
+<div class="corner-branch" aria-hidden="true">
+  <svg><use href="#i-branch"/></svg>
+</div>
+
+<!-- ===== ПАДАЮЩИЕ ЛИСТИКИ ===== -->
+<div class="leaf-layer" aria-hidden="true">
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+  <span class="leaf"><svg><use href="#i-leaf"/></svg></span>
+</div>
 
 <!-- ===== HEADER ===== -->
 <header>
@@ -374,7 +590,7 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <div class="hero-inner">
+  <div class="hero-inner" id="heroInner">
     <span class="hero-tag">Семейный ресторан · Красноярск</span>
     <h1>Гастрономическое<br><em>путешествие</em> по Сибири</h1>
     <p>Традиционная русская кухня, напитки на игрушечных паровозиках, миниатюрные копии знаменитых зданий Красноярска и просторная игровая зона для малышей.</p>
@@ -388,28 +604,28 @@
 <!-- ===== ABOUT ===== -->
 <section id="about">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="kicker">Добро пожаловать</span>
       <h2>Ресторан, в который хочется возвращаться</h2>
       <p>«Сибирский экспресс» — это семейное путешествие по сибирским просторам, наполненное яркими впечатлениями и незабываемым вкусом традиционной русской кухни.</p>
     </div>
     <div class="about-grid">
-      <div class="feature">
+      <div class="feature reveal">
         <div class="ico-wrap"><svg class="icon"><use href="#i-building"/></svg></div>
         <h3>Удивительные детали интерьера</h3>
         <p>Настоящие миниатюрные копии знаменитых зданий Красноярска, выполненные вручную. Уникальное сочетание искусства и гостеприимства.</p>
       </div>
-      <div class="feature">
+      <div class="feature reveal">
         <div class="ico-wrap"><svg class="icon"><use href="#i-train"/></svg></div>
         <h3>Магия подачи блюд</h3>
         <p>Наши фирменные напитки путешествуют прямо к вашему столу на крошечных игрушечных паровозиках — праздник даже в повседневном визите.</p>
       </div>
-      <div class="feature">
+      <div class="feature reveal">
         <div class="ico-wrap"><svg class="icon"><use href="#i-child"/></svg></div>
         <h3>Особое внимание малышам</h3>
         <p>Специально разработанное детское меню порадует юных гурманов, а просторная игровая зона позволит родителям отдохнуть в спокойствии.</p>
       </div>
-      <div class="feature">
+      <div class="feature reveal">
         <div class="ico-wrap"><svg class="icon"><use href="#i-clock"/></svg></div>
         <h3>Ждём ежедневно</h3>
         <p>С 12:00 до 0:00 — чтобы подарить вам уникальный опыт семейной трапезы, комфорт и заботливое обслуживание каждого гостя.</p>
@@ -421,48 +637,48 @@
 <!-- ===== MENU ===== -->
 <section id="menu">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="kicker">Кухня</span>
       <h2>Традиционная русская кухня</h2>
       <p>Домашние пельмени, пышная выпечка и любимые блюда сибирской кухни — для взрослых и самых маленьких гостей.</p>
     </div>
     <div class="menu-grid">
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Пельмени домашние</div>
           <div class="dish-desc">Ручная лепка, сочная начинка, подача со сметаной и зеленью</div>
         </div>
         <div class="dish-price">420 ₽</div>
       </div>
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Сибирские кексы</div>
           <div class="dish-desc">Пышная выпечка по секретному рецепту шеф-повара</div>
         </div>
         <div class="dish-price">260 ₽</div>
       </div>
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Фирменный напиток на паровозике</div>
           <div class="dish-desc">Морс или компот, который приезжает к столу на миниатюрном поезде</div>
         </div>
         <div class="dish-price">290 ₽</div>
       </div>
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Детское меню «Юный гурман»</div>
           <div class="dish-desc">Лёгкие и вкусные блюда специально для маленьких гостей</div>
         </div>
         <div class="dish-price">от 190 ₽</div>
       </div>
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Русский борщ</div>
           <div class="dish-desc">Наваристый, с пампушками и сметаной</div>
         </div>
         <div class="dish-price">380 ₽</div>
       </div>
-      <div class="dish">
+      <div class="dish reveal">
         <div>
           <div class="dish-name">Десерты ручной работы</div>
           <div class="dish-desc">Свежая выпечка и сладости к чаю</div>
@@ -476,12 +692,12 @@
 <!-- ===== MASTER CLASSES ===== -->
 <section id="kids">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="kicker">Для детей</span>
       <h2>Кулинарные мастер-классы</h2>
       <p>Настоящий праздник для юных поварят: лепим пельмени, печём кексы и делаем временные татуировки под присмотром шеф-повара.</p>
     </div>
-    <div class="mc-card">
+    <div class="mc-card reveal">
       <div class="mc-ico"><svg class="icon icon-lg"><use href="#i-chef"/></svg></div>
       <h3>Юный шеф-повар</h3>
       <p>Каждый ребёнок получает фирменный фартук и поварской колпак — и на время становится настоящим кондитером или поваром!</p>
@@ -508,12 +724,12 @@
 <!-- ===== CONTACTS ===== -->
 <section id="contacts">
   <div class="container">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="kicker">Как нас найти</span>
       <h2>Контакты</h2>
     </div>
     <div class="contacts-grid">
-      <div>
+      <div class="reveal">
         <div class="contact-item">
           <div class="c-ico"><svg class="icon icon-sm"><use href="#i-pin"/></svg></div>
           <div>
@@ -543,7 +759,7 @@
           </div>
         </div>
       </div>
-      <div class="map-box">
+      <div class="map-box reveal">
         <div class="m-ico"><svg class="icon icon-lg"><use href="#i-pin"/></svg></div>
         <strong>ул. Партизана Железняка, 19г</strong>
         <p>Красноярск, семейный ресторан «Сибирский экспресс».<br>Удобная парковка и вход для гостей с детьми.</p>
@@ -567,12 +783,39 @@
 </footer>
 
 <script>
+  // ---- мобильное меню ----
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
   burger.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => navLinks.classList.remove('open'))
   );
+
+  // ---- лёгкий параллакс в hero ----
+  const heroInner = document.getElementById('heroInner');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion){
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight){
+        heroInner.style.transform = `translate3d(0, ${y * 0.18}px, 0)`;
+        heroInner.style.opacity = String(Math.max(0, 1 - y / (window.innerHeight * 0.9)));
+      }
+    }, {passive:true});
+  }
+
+  // ---- появление блоков при скролле ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting){
+        e.target.style.transitionDelay = (i * 60) + 'ms';
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
