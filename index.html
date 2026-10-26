@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Сибирский экспресс — семейный ресторан в Красноярске</title>
 <meta name="description" content="Семейный ресторан «Сибирский экспресс» в Красноярске. Традиционная русская кухня, паровозики с напитками, детское меню и игровая зона. Мастер-классы для детей.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ffffff'/%3E%3Cg fill='none' stroke='%230d0d0d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='14' y='12' width='36' height='28' rx='6'/%3E%3Cpath d='M14 26h36'/%3E%3Ccircle cx='24' cy='19' r='2.5'/%3E%3Ccircle cx='40' cy='19' r='2.5'/%3E%3Cpath d='M22 40v5M42 40v5M19 52l3-7M45 52l-3-7'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -33,7 +34,6 @@
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
-  /* лёгкий фоновый шум */
   body::before{
     content:"";
     position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -83,24 +83,22 @@
     text-transform:uppercase;color:var(--white);
     flex-shrink:0;
   }
-  /* круглый логотип: фото вписывается в круг, белого фона нет */
   .logo-mark{
     width:52px;height:52px;
-    border-radius:50%;
+    border-radius:14px;
     overflow:hidden;
     flex-shrink:0;
-    background:#0d0d0d;
-    border:1px solid var(--line-strong);
-    box-shadow:0 0 0 3px rgba(255,255,255,.04);
-    position:relative;
+    background:#ffffff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 18px rgba(0,0,0,.45);
   }
-  .logo-mark img{
-    width:100%;height:100%;
-    object-fit:cover;
-    object-position:center;
-    /* увеличиваем и центрируем, чтобы обрезать белые поля */
-    transform:scale(1.35);
-    transform-origin:center;
+  .logo-mark svg{
+    width:78%;height:78%;
+    stroke:#0d0d0d;
+    stroke-width:2;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
   }
   .nav-links{display:flex;gap:26px;font-size:14px;font-weight:400;letter-spacing:.5px}
   .nav-links a{color:var(--muted);transition:.25s;position:relative;white-space:nowrap}
@@ -183,7 +181,7 @@
   }
   .sec-head p{color:var(--muted);max-width:620px;margin:18px auto 0;font-size:15px}
 
-  #about, #menu, #kids, #contacts, #gallery{background:rgba(13,13,13,.55)}
+  #about, #menu, #kids, #contacts{background:rgba(13,13,13,.55)}
 
   /* ---------- ABOUT ---------- */
   .about-grid{
@@ -225,9 +223,12 @@
   .dish-price{font-weight:600;color:var(--silver);font-size:15px;white-space:nowrap}
 
   /* ============================================================
-     БЛОК «ФОТО» — ЯРКАЯ ЛЕНТА
+     БЛОК «ФОТО» — ПРИГЛУШЁННЫЙ, ТЁМНЫЙ
      ============================================================ */
-  #gallery{padding:80px 0 90px}
+  #gallery{
+    padding:80px 0 90px;
+    background:rgba(8,8,8,.85);
+  }
   #gallery .container{padding:0 24px}
   .gallery-ribbons{
     margin-top:8px;
@@ -257,16 +258,15 @@
     border-radius:16px;
     flex-shrink:0;
     background:var(--card);
-    border:1px solid var(--line-strong);
-    /* ЯРКО и НАСЫЩЕННО: без обесцвечивания, с усилением */
-    filter:saturate(1.15) contrast(1.06) brightness(1.04);
+    border:1px solid var(--line);
+    filter:saturate(.88) contrast(1.02) brightness(.82);
     transition:filter .3s, transform .35s;
-    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
   }
   .ribbon-track img:hover{
-    filter:saturate(1.25) contrast(1.1) brightness(1.08);
-    transform:scale(1.04);
-    box-shadow:0 14px 40px rgba(0,0,0,.6);
+    filter:saturate(1) contrast(1.05) brightness(.92);
+    transform:scale(1.03);
+    box-shadow:0 14px 40px rgba(0,0,0,.65);
   }
   @keyframes ribbon-left{
     from{transform:translate3d(0,0,0)}
@@ -437,7 +437,7 @@
     .ribbon-track img{width:230px;height:155px}
     .ribbon-track{gap:14px;padding-right:14px}
     .gallery-ribbons{gap:14px}
-    .logo-mark{width:42px;height:42px}
+    .logo-mark{width:42px;height:42px;border-radius:12px}
     .logo{font-size:13px;letter-spacing:1px;gap:10px}
   }
   @media(prefers-reduced-motion:reduce){
@@ -505,6 +505,13 @@
       <path d="M80 58c10 8 14 20 10 32-8-8-12-20-10-32z" fill="none" stroke="currentColor" stroke-width="1.6"/>
       <path d="M110 82c-2 14 4 24 16 28 0-14-6-24-16-28z" fill="none" stroke="currentColor" stroke-width="1.6"/>
     </symbol>
+    <symbol id="i-train-logo" viewBox="0 0 64 64">
+      <rect x="14" y="12" width="36" height="28" rx="6"/>
+      <path d="M14 26h36"/>
+      <circle cx="24" cy="19" r="2.5"/>
+      <circle cx="40" cy="19" r="2.5"/>
+      <path d="M22 40v5M42 40v5M19 52l3-7M45 52l-3-7"/>
+    </symbol>
   </defs>
 </svg>
 
@@ -528,8 +535,8 @@
 <header>
   <nav class="nav">
     <a href="#" class="logo">
-      <span class="logo-mark">
-        <img src="https://sun9-81.vkuserphoto.ru/s/v1/ig2/vbxZamffSfRyea6-8-67QvmwREgqYyi6jd9Wbt0Wry3qFDA1o4xD1lccX-UYhVUHwSgeQ7kpXsW9FDPqJL1ZoBlj.jpg?quality=95&as=32x31,48x47,72x70,108x105,160x155,240x233,360x350,480x466,540x524,640x621,720x699,1080x1049,1280x1243,1440x1398,1481x1438&from=bu&u=CeMASKbTc-dni-2Lzu0gA0VwAJgX84NUQWwBl8lzI9g&cs=1481x0" alt="Логотип «Сибирский экспресс»">
+      <span class="logo-mark" aria-hidden="true">
+        <svg><use href="#i-train-logo"/></svg>
       </span>
       Сибирский экспресс
     </a>
@@ -605,40 +612,47 @@
     </div>
   </div>
   <div class="gallery-ribbons">
-    <!-- ряд 1: фото 1–5 -->
+
+    <!-- РЯД 1: только фото A, B, C -->
     <div class="ribbon-row">
       <div class="ribbon-track">
         <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
       </div>
       <div class="ribbon-track" aria-hidden="true">
         <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
       </div>
     </div>
-    <!-- ряд 2: те же 5 фото, но в ДРУГОМ порядке — чтобы ряды не выглядели одинаково -->
+
+    <!-- РЯД 2: только фото D, E — не пересекаются с рядом 1 -->
     <div class="ribbon-row reverse">
       <div class="ribbon-track">
-        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
       </div>
       <div class="ribbon-track" aria-hidden="true">
-        <img src="https://avatars.mds.yandex.net/get-altay/16338459/2a000001996acea81e2325ce9b9d3ece0393/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16420800/2a0000019c4cf528faf6384108f65e3d0fee/XXXL" alt="" loading="lazy">
         <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
-        <img src="https://avatars.mds.yandex.net/get-altay/16386092/2a0000019b89931d12dc4352590f662563ae/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019ea67bb9abdc19d13fe48c26b0fa/XXXL" alt="" loading="lazy">
+        <img src="https://avatars.mds.yandex.net/get-altay/16874376/2a0000019bc02806737464a919a901dd2bb8/XXXL" alt="" loading="lazy">
       </div>
     </div>
+
   </div>
 </section>
 
